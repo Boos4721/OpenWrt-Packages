@@ -1,0 +1,25 @@
+#!/bin/sh /etc/rc.common
+# wulishui 20200908
+
+START=50
+
+
+start() {
+enable=`uci get autoreboot.@login[0].enable 2>/dev/null`
+
+[ "$enable" == 1 ] || exit 0
+day=`uci get autoreboot.@login[0].day 2>/dev/null` ; [ -z "$day" ] && day="*"
+week=`uci get autoreboot.@login[0].week 2>/dev/null|sed 's/7/0/g'` ; [ -z "$week" ] && week="*"
+time=`uci get autoreboot.@login[0].time 2>/dev/null`
+hour=`echo "$time"|awk -F ':' '{print $1}'`
+minute=`echo "$time"|awk -F ':' '{print $2}'`
+sed -i '/autoreboot/d' /etc/crontabs/root 2>/dev/null
+echo "$minute $hour $day * $week sleep 5 && touch /etc/banner && reboot    #By autoreboot" >> /etc/crontabs/root
+/etc/init.d/cron restart
+}
+
+stop() {
+sed -i '/autoreboot/d' /etc/crontabs/root 2>/dev/null && /etc/init.d/cron restart
+}
+
+
