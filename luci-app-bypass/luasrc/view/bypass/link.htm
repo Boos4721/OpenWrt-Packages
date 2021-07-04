@@ -770,7 +770,7 @@ local api = require "luci.model.cbi.bypass.api"
 					if (queryParam.security == "xtls") {
 						opt.set('xtls', true);
 						opt.get('xtls').dispatchEvent(event);
-						opt.set('flow', queryParam.flow || "xtls-rprx-direct");
+						opt.set('vless_flow', queryParam.flow || "xtls-rprx-direct");
 					}
 					opt.set('tls_host', queryParam.sni || '');
 					
