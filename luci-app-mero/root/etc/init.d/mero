@@ -1,0 +1,43 @@
+#!/bin/sh /etc/rc.common
+START=96
+STOP=10
+USE_PROCD=1
+PROG=/bin/mero_client_linux_mipsle
+
+start_service() {
+	key_value=`uci get mero.KEY.key`
+	enabled_v=`uci get mero.KEY.enabled`
+
+	[  $enabled_v  !=  1  ] && exit 0
+	[ '$key_value' == '' ] && exit 0
+
+	procd_open_instance
+	procd_set_param respawn
+	procd_set_param stderr 1
+	procd_set_param command "$PROG" -k	$key_value
+	procd_close_instance
+	
+}
+
+stop_service() {
+
+	local mero_pid=""
+	mero_pid=`ps -w | grep -w "mero_client_linux_mipsle" | grep -v grep| awk '{print $1}'`
+
+	if [ "${mero_pid}" != "" ];then
+		kill -9 ${mero_pid}
+	fi
+}
+
+service_triggers()
+{
+	procd_add_reload_trigger "mero"
+}
+
+
+reload_service()
+{
+	stop
+	start
+}
+

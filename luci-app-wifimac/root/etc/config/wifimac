@@ -1,0 +1,3 @@
+config wifimac 'wifimac'
+        option mac2  '30:87:D9:1B:15:E8'
+        option mac5  ''

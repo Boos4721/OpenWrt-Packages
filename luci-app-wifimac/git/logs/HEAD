@@ -1,0 +1,3 @@
+0000000000000000000000000000000000000000 b7cfc6e82b5b956b2dcbe68d63bdb2512b6246f5 gimmymatt <gimmymatt@gmail.com> 1624881788 +0800	clone: from git@github.com:gimmymatt/luci-app-wifimac.git
+b7cfc6e82b5b956b2dcbe68d63bdb2512b6246f5 9a2dc7d2e2e5a2dce3775e97f4464f02435faa9d gimmymatt <gimmymatt@gmail.com> 1624892162 +0800	commit: 完成基础功能能
+9a2dc7d2e2e5a2dce3775e97f4464f02435faa9d 9cee03bc6222153ecc7de34ec5c47b30f547816e gimmymatt <gimmymatt@gmail.com> 1624976910 +0800	commit: 删除不必要的依赖

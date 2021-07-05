@@ -1,4 +1,4 @@
-# Easy QoS for OpenWRT/Lede([中文](https://github.com/garypang13/luci-app-eqos/blob/master/README_ZH.md))
+# Easy QoS for OpenWRT/Lede([中文](https://github.com/swxk521/luci-app-eqos/blob/main/README_ZH.md))
 
 ![](https://img.shields.io/badge/license-GPLV3-brightgreen.svg?style=plastic "License")
 
@@ -11,7 +11,7 @@
 
 # Install to OpenWRT/LEDE
 	
-	git clone https://github.com/garypang13/luci-app-eqos
+	git clone https://github.com/lwxlwxlwx/eqos.git
 	cp -r eqos LEDE_DIR/package/eqos
 	
 	cd LEDE_DIR
