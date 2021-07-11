@@ -1,0 +1,65 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Information about 3G/4G connection"
+msgstr "Informacja o statusie połączenia 3G/4G"
+
+msgid "Details"
+msgstr "Szczegóły"
+
+msgid "USB debug information"
+msgstr "Debugowanie portu USB"
+
+msgid "Configuration"
+msgstr "Konfiguracja"
+
+msgid "General Information"
+msgstr "Informacje ogólne"
+
+msgid "Modem Information"
+msgstr "Informacje o modemie"
+
+msgid "Signal Information"
+msgstr "Informacje o sygnale"
+
+msgid "Cell Information"
+msgstr "Informacje o sieci komórkowej"
+
+msgid "Mode:"
+msgstr "Tryb pracy:"
+
+msgid "Operator:"
+msgstr "Operator:"
+
+msgid "Signal strength:"
+msgstr "Siła sygnału:"
+
+msgid "Modem type:"
+msgstr "Typ modemu:"
+
+msgid "Additional information"
+msgstr "Informacje dodatkowe"
+
+msgid "Revision / Firmware:"
+msgstr "Rewizja / Wersja firmware:"
+
+msgid "Communication Port:"
+msgstr "Port do komunikacji:"
+
+msgid "Chip Temperature:"
+msgstr "Temperatura układu:"
+
+msgid "Configuration 3ginfo-lite"
+msgstr "Konfiguracja 3ginfo-lite"
+
+msgid "Configuration panel for the 3ginfo-lite application."
+msgstr "Panel konfiguracyjny dla aplikacji 3ginfo-lite."
+
+msgid "Network"
+msgstr "Sieć"
+
+msgid "Port for communication with the modem"
+msgstr "Port do komunikacji z modemem"
+
+msgid "Protocol:"
+msgstr "Protokół:"
