@@ -1,207 +1,159 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"PO-Revision-Date: 2021-04-04 07:26+0000\n"
-"Last-Translator: Yurii Petrashko <yuripet@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/openwrt/"
-"luciapplicationssamba4/uk/>\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2012-03-18 20:35+0200\n"
+"Last-Translator: YuriPet <yuripet@gmail.com>\n"
+"Language-Team: none\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.0.4\n"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:120
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:78
 msgid "Allow guests"
 msgstr "Дозволити гостьовий вхід"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:67
-msgid "Allow legacy (insecure) protocols/authentication."
-msgstr "Дозволити застарілі (небезпечні) протоколи/автентифікації."
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:68
-msgid ""
-"Allow legacy smb(v1)/Lanman connections, needed for older devices without "
-"smb(v2.1/3) support."
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:15
+msgid "Allow system users to reach their home directories via network shares"
 msgstr ""
-"Дозволити застарілі підключення smb(v1)/Lanman, необхідні для старих "
-"пристроїв без підтримки smb(v2.1/3)."
+"Дозволити користувачам системи досягати своїх домашніх каталогів через "
+"загальні мережеві ресурси"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:117
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:75
 msgid "Allowed users"
 msgstr "Дозволені користувачі"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:151
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:106
 msgid "Apple Time-machine share"
-msgstr "Частина \"Машини часу\" Apple"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:104
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:63
 msgid "Browse-able"
-msgstr "Доступний для перегляду"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:136
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:93
 msgid "Create mask"
 msgstr "Створити маску"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:54
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:12
 msgid "Description"
 msgstr "Опис"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:142
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:98
 msgid "Directory mask"
 msgstr "Маска каталогу"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:74
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:27
 msgid "Disable Active Directory Domain Controller"
-msgstr "Вимкнути контролер домену Active Directory"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:71
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:24
 msgid "Disable Netbios"
-msgstr "Вимкнути Netbios"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:77
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:30
 msgid "Disable Winbind"
-msgstr "Вимкнути Winbind"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:32
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:9
 msgid "Edit Template"
 msgstr "Редагувати шаблон"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:81
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:34
 msgid "Edit the template that is used for generating the samba configuration."
-msgstr "Редагувати шаблон файлу конфігурації samba."
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:57
-msgid "Enable extra Tuning"
-msgstr "Увімкнути додаткове налаштування"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:64
-msgid "Enable macOS compatible shares"
-msgstr "Увімкнути спільні папки, сумісні з macOS"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:58
-msgid ""
-"Enable some community driven tuning parameters, that may improve write "
-"speeds and better operation via WiFi. Not recommend if multiple clients "
-"write to the same files, at the same time!"
 msgstr ""
-"Увімкніть деякі параметри налаштування, орієнтовані на спільноту, що може "
-"поліпшити швидкість запису та кращу роботу через WiFi. Не рекомендується, "
-"якщо кілька клієнтів пишуть в одні й ті ж файли, в той же час!"
+"Редагувати шаблон, який використовується для створення конфігурації samba."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:65
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:19
+msgid "Enable macOS compatible shares"
+msgstr ""
+
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:20
 msgid ""
 "Enables Apple's AAPL extension globally and adds macOS compatibility options "
 "to all shares."
 msgstr ""
-"Увімкнути розширення Apple AAPL глобально і додавати параметри сумісності з "
-"macOS для всіх спільних ресурсів."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:115
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:73
 msgid "Force Root"
-msgstr "Примусово Root"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:61
-msgid "Force synchronous I/O"
-msgstr "Примусово синхронний ввід/вивід"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:31
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:8
 msgid "General Settings"
-msgstr "Загальні налаштування"
+msgstr "Загальні настройки"
 
-#: applications/luci-app-samba4/root/usr/share/rpcd/acl.d/luci-app-samba4.json:3
-msgid "Grant access to LuCI app samba4"
-msgstr "Надати доступ LuCI до застосунку samba4"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:126
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:83
 msgid "Guests only"
-msgstr "Лише гості"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:131
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:11
+msgid "Hostname"
+msgstr "Назва (ім'я) вузла"
+
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:88
 msgid "Inherit owner"
-msgstr "Успадковувати власника"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:34
-msgid "Interface"
-msgstr "Інтерфейс"
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:35
-msgid "Listen only on the given interface or, if unspecified, on lan"
 msgstr ""
-"Прослуховувати тільки на цьому інтерфейсі, якщо <em>не визначено</em> – на "
-"всіх"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:98
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:57
 msgid "Name"
-msgstr "Назва"
+msgstr "Ім'я"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:23
-#: applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json:3
+#: applications/luci-app-samba4/luasrc/controller/samba4.lua:12
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:3
 msgid "Network Shares"
-msgstr "Спільні мережеві ресурси"
+msgstr "Загальні мережеві ресурси"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:62
-msgid ""
-"On lower-end devices may increase speeds, by forceing synchronous I/O "
-"instead of the default asynchronous."
-msgstr ""
-"На пристроях нижнього класу можна збільшити швидкість, застосовуючи "
-"синхронний ввід/вивід замість типового асинхронного."
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:99
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:58
 msgid "Path"
 msgstr "Шлях"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:94
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:52
 msgid ""
 "Please add directories to share. Each directory refers to a folder on a "
 "mounted device."
 msgstr ""
-"Додайте каталоги для спільного доступу. Кожен каталог посилається на папку "
-"на підключеному пристрої."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:109
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:68
 msgid "Read-only"
 msgstr "Тільки читання"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:93
-msgid "Shared Directories"
-msgstr "Спільні каталоги"
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:14
+msgid "Share home-directories"
+msgstr "Спільно використовувати домашні каталоги"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:82
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:51
+msgid "Shared Directories"
+msgstr "Загальні каталоги"
+
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:35
 msgid ""
 "This is the content of the file '/etc/samba/smb.conf.template' from which "
 "your samba configuration will be generated. Values enclosed by pipe symbols "
 "('|') should not be changed. They get their values from the 'General "
 "Settings' tab."
 msgstr ""
-"Це вміст файлу '/etc/samba/smb.conf.template', з якого буде генеруватися ваш "
-"файл конфігурації samba.<br />Значення, укладені в символи (\"|\") не "
-"повинні змінюватися.<br />Вони отримують свої значення з вкладки \"Загальні "
-"параметри\"."
+"Це вміст файлу '/etc/samba/smb.conf.template', з якого буде генеруватися "
+"ваша конфігурація samba. Значення, укладені в символи \"вертикальна риска"
+"\" (\"|\") не повинні змінюватися. Вони отримують свої значення з вкладки "
+"\"Загальні налаштування\"."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:153
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:108
 msgid "Time-machine size in GB"
-msgstr "Обсяг \"Машини часу\", ГБ"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:148
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:103
 msgid "Vfs objects"
-msgstr "Об'єкти Vfs"
+msgstr ""
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:51
+#: applications/luci-app-samba4/luasrc/model/cbi/samba4.lua:13
 msgid "Workgroup"
 msgstr "Робоча група"
 
-#~ msgid ""
-#~ "Allow system users to reach their home directories via network shares"
-#~ msgstr ""
-#~ "Дозволити користувачам системи досягати своїх домашніх каталогів через "
-#~ "спільні мережеві ресурси"
+#~ msgid "Mask for new directories"
+#~ msgstr "Маска для нових каталогів"
 
-#~ msgid "Hostname"
-#~ msgstr "Назва (ім'я) вузла"
-
-#~ msgid "Share home-directories"
-#~ msgstr "Спільно використовувати домашні каталоги"
+#~ msgid "Mask for new files"
+#~ msgstr "Маска для нових файлів"
