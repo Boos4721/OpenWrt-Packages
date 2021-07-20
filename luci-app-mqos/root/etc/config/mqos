@@ -1,0 +1,11 @@
+config global
+    option enabled 0
+    option interface br-lan
+    option download 1000
+    option upload 1000
+
+# config device 
+#     option mac 00:00:00:00
+#     option dl 10
+#     option up 10
+#     option comment "hostname"

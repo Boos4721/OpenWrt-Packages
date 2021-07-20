@@ -1,0 +1,65 @@
+#!/bin/sh /etc/rc.common
+START=50
+
+DEV=$(uci get mqos.@global[0].interface)
+TCF="tc filter add dev $DEV parent 1: protocol ip u32 match u16 0x0800 0xFFFF at -2"
+TCF_IFB="tc filter add dev ${DEV}-ifb parent 1: protocol ip u32 match u16 0x0800 0xFFFF at -2"
+
+filter_mac() {
+
+    M0=$(echo $1 | cut -d : -f 1)$(echo $1 | cut -d : -f 2)
+    M1=$(echo $1 | cut -d : -f 3)$(echo $1 | cut -d : -f 4)
+    M2=$(echo $1 | cut -d : -f 5)$(echo $1 | cut -d : -f 6)
+
+    $TCF match u16 0x${M2} 0xFFFF at -4 match u32 0x${M0}${M1} 0xFFFFFFFF at -8 flowid $2
+    $TCF match u32 0x${M1}${M2} 0xFFFFFFFF at -12 match u16 0x${M0} 0xFFFF at -14 flowid $2
+    $TCF_IFB match u16 0x${M2} 0xFFFF at -4 match u32 0x${M0}${M1} 0xFFFFFFFF at -8 flowid $2
+    $TCF_IFB match u32 0x${M1}${M2} 0xFFFFFFFF at -12 match u16 0x${M0} 0xFFFF at -14 flowid $2
+}
+
+add_rule() {
+    local cfg="$1"
+    local mac dl up
+    config_get mac "$cfg" mac
+    config_get dl "$cfg" download
+    config_get up "$cfg" upload
+    local class=$(tc class show dev $DEV | wc -l)
+
+    tc class add dev $DEV parent 1:1 classid 1:1${class} htb rate ${dl}mbit ceil ${dl}mbit
+    tc class add dev ${DEV}-ifb parent 1:1 classid 1:1${class} htb rate ${up}mbit ceil ${up}mbit
+    filter_mac $mac "1:1${class}"
+}
+
+stop() {
+    tc qdisc del dev $DEV root 2>/dev/null
+    tc qdisc del dev $DEV ingress 2>/dev/null
+    tc qdisc del dev ${DEV}-ifb root 2>/dev/null
+    ip link del dev ${DEV}-ifb 2>/dev/null
+}
+
+start() {
+    stop
+
+    local enabled=$(uci get mqos.@global[0].enabled)
+    if [ "$enabled" == "0" ] || [ "$DEV" == "" ]; then
+        return
+    fi
+
+    local dl=$(uci get mqos.@global[0].download)
+    local up=$(uci get mqos.@global[0].upload)
+
+    ip link add dev ${DEV}-ifb name ${DEV}-ifb type ifb
+    ip link set dev ${DEV}-ifb up
+
+    tc qdisc add dev $DEV root handle 1: htb
+    tc class add dev $DEV parent 1: classid 1:1 htb rate ${dl}mbit
+
+    tc qdisc add dev ${DEV}-ifb root handle 1: htb
+    tc class add dev ${DEV}-ifb parent 1: classid 1:1 htb rate ${up}mbit
+
+    tc qdisc add dev $DEV ingress
+    tc filter add dev $DEV parent ffff: protocol ip u32 match u32 0 0 flowid 1:1 action mirred egress redirect dev ${DEV}-ifb
+
+    config_load mqos
+    config_foreach add_rule device
+}

@@ -1,0 +1,52 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:10
+msgid "Interface"
+msgstr ""
+
+#: luci-app-mqos/luasrc/controller/mqos.lua:8
+msgid "MQoS"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:3
+msgid "Quality of Service by MAC"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:18
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:42
+msgid "上传速度 (Mbit/s)"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:14
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:39
+msgid "下载速度 (Mbit/s)"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:8
+msgid "启用"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:29
+msgid "地址"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:23
+msgid "基于MAC地址限速"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:45
+msgid "备注"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:19
+msgid "接口上传速度"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:15
+msgid "接口下载速度"
+msgstr ""
+
+#: luci-app-mqos/luasrc/model/cbi/mqos.lua:10
+msgid "需要先保存应用"
+msgstr ""
