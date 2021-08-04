@@ -23,6 +23,7 @@ local ucic = luci.model.uci.cursor()
 local proxy = ucic:get_first(name, 'server_subscribe', 'proxy', '0')
 local switch = ucic:get_first(name, 'server_subscribe', 'switch', '1')
 local subscribe_url = ucic:get_first(name, 'server_subscribe', 'subscribe_url', {})
+local filter_mode=ucic:get_first(name,'server_subscribe','filter_mode','0')
 local filter_words = ucic:get_first(name, 'server_subscribe', 'filter_words', '过期时间/剩余流量')
 local v2_ss = luci.sys.exec('type -t -p ss-redir sslocal') ~= "" and "ss" or "v2ray"
 local v2_tj = luci.sys.exec('type -t -p trojan') ~= "" and "trojan" or "v2ray"
@@ -417,15 +418,14 @@ local function wget(url)
 end
 
 local function check_filer(result)
-	do
-		local filter_word = split(filter_words, "/")
-		for i, v in pairs(filter_word) do
-			if result.alias:find(v) then
-				-- log('订阅节点关键字过滤:“' .. v ..'” ，该节点被丢弃')
-				return true
-			end
+	local filter_word=split(filter_words,"/")
+	for i,v in pairs(filter_word) do
+		if result.alias:find(v) then
+			-- log('命中关键词:“'..v..'” pwd')
+			return filter_mode=='0'
 		end
 	end
+	return filter_mode=='1'
 end
 
 local execute = function()
