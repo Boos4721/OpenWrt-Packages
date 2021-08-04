@@ -160,7 +160,7 @@ local function processData(szType, content)
 		result.alias = result.alias .. base64Decode(params.remarks)
 	elseif szType == 'vmess' then
 		local info = jsonParse(content)
-		result.type = 'v2ray'
+		result.type = 'vmess'
 		result.v2ray_protocol = 'vmess'
 		result.server = info.add
 		result.server_port = info.port
@@ -224,7 +224,7 @@ local function processData(szType, content)
 		local method = userinfo:sub(1, userinfo:find(":") - 1)
 		local password = userinfo:sub(userinfo:find(":") + 1, #userinfo)
 		result.alias = UrlDecode(alias)
-		result.type = v2_ss
+		result.type = ss
 		result.v2ray_protocol = "shadowsocks"
 		result.server = host[1]
 		if host[2]:find("/%?") then
@@ -260,7 +260,7 @@ local function processData(szType, content)
 			result.server = nil
 		end
 	elseif szType == "sip008" then
-		result.type = v2_ss
+		result.type = ss
 		result.v2ray_protocol = "shadowsocks"
 		result.server = content.server
 		result.server_port = content.server_port
@@ -273,7 +273,7 @@ local function processData(szType, content)
 			result.server = nil
 		end
 	elseif szType == "ssd" then
-		result.type = v2_ss
+		result.type = ss
 		result.v2ray_protocol = "shadowsocks"
 		result.server = content.server
 		result.server_port = content.port
@@ -300,7 +300,7 @@ local function processData(szType, content)
 		local userinfo = hostInfo[1]
 		local password = userinfo
 		result.alias = UrlDecode(alias)
-		result.type = v2_tj
+		result.type = trojan
 		result.v2ray_protocol = "trojan"
 		result.server = host[1]
 		-- 按照官方的建议 默认验证ssl证书
@@ -341,7 +341,7 @@ local function processData(szType, content)
 				params[t[1]] = t[2]
 			end
 			result.alias = UrlDecode(alias)
-			result.type = 'v2ray'
+			result.type = 'vless'
 			result.v2ray_protocol = 'vless'
 			result.server = host[1]
 			result.server_port = query[1]
