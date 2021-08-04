@@ -166,7 +166,7 @@ local function processData(szType, content)
 		result.server_port = info.port
 		result.transport = info.net
 		result.alter_id = info.aid
-		result.vmess_id = info.id
+		result.uuid = info.id
 		result.alias = info.ps
 		-- result.mux = 1
 		-- result.concurrency = 8
@@ -345,7 +345,7 @@ local function processData(szType, content)
 			result.v2ray_protocol = 'vless'
 			result.server = host[1]
 			result.server_port = query[1]
-			result.vmess_id = uuid
+			result.uuid = uuid
 			result.vless_encryption = params.encryption or "none"
 			result.transport = params.type and (params.type == 'http' and 'h2' or params.type) or "tcp"
 			if not params.type or params.type == "tcp" then
