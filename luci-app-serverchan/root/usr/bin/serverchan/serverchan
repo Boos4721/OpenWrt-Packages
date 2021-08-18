@@ -739,7 +739,7 @@ function up(){
 		LockFile lock
 		[ ! -z "$serverchan_blacklist" ] && local tmp_mac=`echo "${serverchan_blacklist}"|grep -w -i ${ip_mac}`
 		[ ! -z "$serverchan_whitelist" ] && local tmp_mac=`echo "${serverchan_whitelist}"|grep -w -i ${ip_mac}`
-		[ -z "$tmp_mac" ] && local tmp_mac=${ip_mac} || ( cat ${dir}ipAddress|grep -q -w ${tmp_mac} ) && return
+		[ -z "$tmp_mac" ] && local tmp_mac=${ip_mac} || ( cat ${dir}ipAddress|grep -q -w ${tmp_mac} ) && LockFile unlock && return
 		[ -f "${dir}tmp_downlist" ] && local tmp_downip=`cat ${dir}tmp_downlist|grep -w -i ${tmp_mac}|awk '{print $1}'|grep -v "^$"|sort -u|head -n1`
 		[ -z "$tmp_downip" ] && local tmp_downip=`cat ${dir}tmp_downlist|grep -w ${1}|grep -v "^$"|sort -u|head -n1`
 		if [ ! -z "$tmp_downip" ]; then
