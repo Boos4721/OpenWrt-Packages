@@ -253,8 +253,8 @@ function soc_temp(){
 function usage(){
 	[ ! -f "/usr/sbin/wrtbwmon" ] || [ ! "$1" ] && return
 	if [ $1 == "update" ] ;then
-		function version_le() { test "$(echo "$@"|tr " " "\n"|sort -V|head -n 1)" == "$1"; }
-		function version_ge() { test "$(echo "$@"|tr " " "\n"|sort -rV|head -n 1)" == "$1"; }
+		function version_le() { test "$(echo "$@"|tr " " "\n"|sort -n|head -n 1)" == "$1"; }
+		function version_ge() { test "$(echo "$@"|tr " " "\n"|sort -r|head -n 1)" == "$1"; }
 		[ ! -z "$wr_version" ] && ( version_ge "${wr_version}" "1.2.0" ) && wrtbwmon -f ${dir}usage.db 2>/dev/null && return
 		[ ! -z "$wr_version" ] && ( version_le "${wr_version}" "1.0.0" ) || [ -z "$wr_version" ] && wrtbwmon update ${dir}usage.db 2>/dev/null && return
 	elif [ $1 == "get" ] ;then
