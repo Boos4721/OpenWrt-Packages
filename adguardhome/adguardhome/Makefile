@@ -38,7 +38,7 @@ GO_PKG_LDFLAGS_X:=$(AGH_VERSION_PKG).channel=release \
 	$(AGH_VERSION_PKG).gomips=$(GO_MIPS)
 
 include $(INCLUDE_DIR)/package.mk
-include ../../lang/golang/golang-package.mk
+include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
 define Package/adguardhome
 	SECTION:=net
@@ -48,9 +48,6 @@ define Package/adguardhome
 	DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
-define Package/adguardhome/conffiles
-/etc/adguardhome.yaml
-endef
 
 define Package/adguardhome/description
 Free and open source, powerful network-wide ads and trackers blocking DNS server.
