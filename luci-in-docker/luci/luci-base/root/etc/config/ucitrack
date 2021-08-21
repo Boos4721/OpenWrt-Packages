@@ -1,0 +1,5 @@
+config system
+	option init led
+	option exec '/etc/init.d/log reload'
+	list affects luci_statistics
+	list affects dhcp

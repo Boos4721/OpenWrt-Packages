@@ -55,6 +55,18 @@ merge() {
       do
         [ -n "$(echo $po | grep -E '.po$')" ] && {
           po_name=$(echo $po | awk -F'/' '{print $NF}' | awk -F'.' '{print $1}').$(echo $i18n | awk -F'/' '{print $NF}')
+          lang=$(echo $po_name | awk -F '[-.]' '{print $2}')
+          if [ $lang = "zh_Hans" ]; then
+            po_name="$(echo $po_name | awk -F '[-.]' '{print $1}').zh-cn"
+          elif [ $lang = "zh_Hant" ]; then
+            po_name="$(echo $po_name | awk -F '[-.]' '{print $1}').zn-tw"
+          elif [ $lang = "pt_BR" ]; then
+            po_name="$(echo $po_name | awk -F '[-.]' '{print $1}').pt-br"
+          elif [ $lang = "nb_NO" ]; then
+            po_name="$(echo $po_name | awk -F '[-.]' '{print $1}').nb"
+          elif [ $lang = "bn_BD" ]; then
+            po_name="$(echo $po_name | awk -F '[-.]' '{print $1}').bn"
+          fi
           po2lmo $po $dst/usr/lib/lua/luci/i18n/$po_name.lmo
         }
       done
@@ -118,11 +130,23 @@ merge_luci_root() {
   touch /etc/rc.common
   umount /etc/rc.common 2&> /dev/null
   mount -o bind $LUCI_SYSROOT/etc/rc.common /etc/rc.common
+
+  echo "Mounting /www.."
+  mkdir -p /www
+  umount /www 2&> /dev/null
+  mount -o bind $LUCI_SYSROOT/www /www
+
+  echo "Creating nobody session.."
+  mkdir -p /tmp/luci-sessions
+  echo '{"acls":{"access-group":{"unauthenticated":["read"]},"ubus":{"luci":["getFeatures"],"session":["access","login"]}},"data":{},"atime":-1,"session":"00000000000000000000000000000000"}' > /tmp/luci-sessions/00000000000000000000000000000000 && \
+  chmod 700 /tmp/luci-sessions && \
+  chmod 600 /tmp/luci-sessions/00000000000000000000000000000000
 }
 
 start_uhttpd() {
   echo "Starting uhttpd.."
-  rm -fr /tmp/luci-*
+  rm -fr /tmp/luci-modulecache
+  rm -fr /tmp/luci-indexcache*
   $LUCI_SYSROOT/usr/sbin/uhttpd -p 80 -t 1200 -h $LUCI_SYSROOT/www -f &
 }
 
