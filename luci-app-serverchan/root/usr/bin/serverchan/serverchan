@@ -15,6 +15,7 @@ function read_config(){
 		eval `echo ${str_version:0:2}"_version"`=`opkg list-installed|grep -w ^${str_version}|awk '{print $3}'` 2>/dev/null
 	done
 	dir="/tmp/serverchan/" && mkdir -p ${dir}
+	tempjsonpath="/tmp/serverchan/temp.json"
 	[ ! -z "$oui_dir" ] && [ "$oui_dir" -eq "1" ] && oui_base="${dir}oui_base.txt" || oui_base="/usr/bin/serverchan/oui_base.txt"
 	debuglevel=`echo "$debuglevel"` && [ -z "$debuglevel" ] && logfile="/dev/null" || logfile="${dir}serverchan.log"
 	serverchan_blacklist=`echo "$serverchan_blacklist"|sed 's/ /\n/g'` 2>/dev/null
@@ -62,7 +63,6 @@ function serverchan_init(){
 
 # 推送
 function diy_send(){
-	local tempjsonpath="/tmp/serverchan/temp.json"
 	local diyurl=`/usr/bin/jq -r .url ${3}` && local diyurl=`eval echo ${diyurl}`
 	local type=`/usr/bin/jq -r '.type' ${3}` && local type=`eval echo ${type}`
 	local data=`/usr/bin/jq -r '.data' ${3}` && local data=`eval echo ${data}`
@@ -94,7 +94,7 @@ utstarcom\|volans\|xerox\|xiaomi\|zdc\|zhongxing\|smartisan" > ${oui_base} && ec
 # 清理临时文件
 function deltemp(){
 	unset title	content ipAddress_logrow online_list online_mac mac_online_status
-	rm -f ${dir}title ${dir}content ${dir}top ${dir}tmp_downlist ${dir}send_enable.lock >/dev/null 2>&1
+	rm -f ${dir}title ${dir}content ${dir}top ${dir}tmp_downlist ${dir}send_enable.lock ${tempjsonpath} >/dev/null 2>&1
 	LockFile unlock
 	[ -f ${logfile} ] && local logrow=$(grep -c "" ${logfile}) || local logrow="0"
 	[ $logrow -gt 500 ] && sed -i '1,100d' ${logfile} && echo "`date "+%Y-%m-%d %H:%M:%S"`  【清理】日志超出上限，删除前 100 条" >> ${logfile}
@@ -991,10 +991,9 @@ function send(){
 	[ ! -z "$device_name" ] && local send_title="【$device_name】${send_title}"
 	[ -z "$send_content" ] && local send_content="${str_splitline}${str_title_start} 我遇到了一个难题${str_title_end}${str_linefeed}${str_tab}定时发送选项错误，你没有选择需要发送的项目，该怎 么办呢${str_splitline}"
 	local nowtime=`date "+%Y-%m-%d %H:%M:%S"`
-	[ "$send_disturb" -eq "0" ] && diy_send "${send_title}" "${send_content}" "${jsonpath}" >>${logfile} 2>&1
-	
+	[ "$send_disturb" -eq "0" ] && diy_send "${send_title}" "${send_content}" "${jsonpath}" >/dev/null 2>&1
+	[ $? -eq 1 ] && echo "`date "+%Y-%m-%d %H:%M:%S"` 【！！！】定时推送失败，请检查网络或设置信息" >> ${logfile} || echo "`date "+%Y-%m-%d %H:%M:%S"` ${disturb_text}定时推送任务完成" >> ${logfile}
 	deltemp
-	echo "`date "+%Y-%m-%d %H:%M:%S"` ${disturb_text}定时推送任务完成" >> ${logfile}
 }
 
 # 初始化
@@ -1074,7 +1073,8 @@ while [ "$serverchan_enable" -eq "1" ]; do
 		( ! echo "$lite_enable"|grep -q "content" ) && ( ! echo "$lite_enable"|grep -q "nowtime" ) && nowtime=`date "+%Y-%m-%d %H:%M:%S"`
 		[ ! -z "$device_name" ] && title="【$device_name】$title"
 		( echo "$lite_enable"|grep -q "content" ) && content="$title"
-		[ "$disturb" -eq "0" ] && diy_send "${title}" "${content}" "${jsonpath}" >>${logfile} 2>&1
+		[ "$disturb" -eq "0" ] && diy_send "${title}" "${content}" "${jsonpath}" >/dev/null 2>&1
+		[ $? -eq 1 ] && echo "`date "+%Y-%m-%d %H:%M:%S"` 【！！！】推送失败，请检查网络或设置信息 " >> ${logfile}
 	fi
 	
 	while [ -f "${dir}send_enable.lock" ]; do

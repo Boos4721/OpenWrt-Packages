@@ -93,8 +93,16 @@ a=s:taboption("basic", Value,"chat_id",translate('TG_chatid'),translate("").."�
 a.rmempty = true
 a:depends("jsonpath","/usr/bin/serverchan/api/telegram.json")
 
-a=s:taboption("basic", Value,"diy_url",translate('url'),translate(""))
-a.rmempty = true
+a=s:taboption("basic", TextValue, "diy_json", translate("自定义推送"))
+a.optional = false
+a.rows = 28
+a.wrap = "soft"
+a.cfgvalue = function(self, section)
+    return fs.readfile("/usr/bin/serverchan/api/diy.json")
+end
+a.write = function(self, section, value)
+    fs.writefile("/usr/bin/serverchan/api/diy.json", value:gsub("\r\n", "\n"))
+end
 a:depends("jsonpath","/usr/bin/serverchan/api/diy.json")
 
 a=s:taboption("basic", Button,"__add",translate("发送测试"))
