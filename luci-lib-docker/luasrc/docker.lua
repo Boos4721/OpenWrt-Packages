@@ -18,7 +18,7 @@ local chunksource = function(sock, buffer)
   return function()
     local output
     local _, endp, count = buffer:find("^([0-9a-fA-F]+)\r\n")
-    while not count do
+    if not count then
       local newblock, code = sock:recv(1024)
       if not newblock then return nil, code end
       buffer = buffer .. newblock
