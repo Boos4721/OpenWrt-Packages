@@ -1,17 +1,16 @@
 include $(TOPDIR)/rules.mk
-
-PKG_NAME:=luci-app-argon-config
-PKG_VERSION:=0.9
+PKG_NAME:=luci-app-ttnode
+PKG_VERSION:=0.3
 PKG_RELEASE:=20210904
 
 PKG_MAINTAINER:=jerrykuku <jerrykuku@qq.com>
 
-LUCI_TITLE:=LuCI page for Argon Config
+LUCI_TITLE:=Luci for ttnode Automatic collection Script 
 LUCI_PKGARCH:=all
-LUCI_DEPENDS:=+luci-compat
+LUCI_DEPENDS:=+luasocket +lua-md5 +lua-cjson +luasec
 
 define Package/$(PKG_NAME)/conffiles
-/etc/config/argon
+/etc/config/ttnode
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
