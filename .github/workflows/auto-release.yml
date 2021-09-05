@@ -1,0 +1,91 @@
+name: release luci-app-shortcutmenu
+on:
+  # push:
+  #   branches: 
+  #     - master
+  # watch:
+  #   types: started
+    # push:
+    #   tags:
+    #     - "*"
+jobs:
+  build_luci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+          lfs: true
+      - name: set git identity
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: space cleanup
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          docker rmi `docker images -q`
+          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php* android*
+          sudo -E apt-get update
+          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig help2man libattr1-dev
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+          # sudo mkdir -p -m 777 /mnt/openwrt/bin /mnt/openwrt/build_dir/host /mnt/openwrt/build_dir/hostpkg /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
+          # ln -s /mnt/openwrt/bin ./bin
+          # mkdir -p ./build_dir
+          # ln -s -f /mnt/openwrt/build_dir/host ./build_dir/host
+          # ln -s -f /mnt/openwrt/build_dir/hostpkg ./build_dir/hostpkg
+          # ln -s /mnt/openwrt/dl ./dl
+          # ln -s /mnt/openwrt/feeds ./feeds
+          # ln -s /mnt/openwrt/staging_dir ./staging_dir
+          df -h
+      - name: load latest version
+        run: |
+          git clone https://github.com/coolsnowwolf/lede.git --depth=1 ./tmp/lede
+          mkdir -p ./tmp/lede/package/doushang/
+          cp -rf ./luci-app-shortcutmenu ./tmp/lede/package/doushang/
+      - name: update feeds
+        run: |
+          ./tmp/lede/scripts/feeds update -a
+          ./tmp/lede/scripts/feeds install -a
+      - name: generate configuration file
+        run: |
+          cd ./tmp/lede
+          rm -f ./.config*
+          touch ./.config
+          #
+          cat >> .config <<EOF
+          CONFIG_PACKAGE_luci-app-shortcutmenu=y
+          CONFIG_PACKAGE_luci-i18n-shortcutmenu=y
+          EOF
+          #
+          # ===============================================================
+          # 
+          sed -i 's/^[ \t]*//g' ./.config
+          make defconfig
+      - name: build luci-app-shortcutmenu
+        run: |
+          cd ./tmp/lede
+          make -j8  V=s
+          # make package/feeds/luci/luci-base/compile V=s
+          # make package/luci-app-shortcutmenu/compile -j8 V=s
+      - name: package plugins
+        run: |
+          # ls tmp/lede/bin/packages/x86_64/base
+          # zip --junk-paths luci-app-shortcutmenu ./tmp/lede/bin/packages/x86_64/base/luci-app-shortcutmenu_*.ipk
+          mkdir -p tmp/upload/
+          cp -a tmp/lede/bin/packages/x86_64/base/luci-app-shortcutmenu_*.ipk tmp/upload/
+          cp -a tmp/lede/bin/packages/x86_64/base/luci-i18n-shortcutmenu-zh-cn_*.ipk tmp/upload/
+      - name: create release and upload asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: tmp/upload/*
+          file_glob: true
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: |
+            automatically publish packages compiled with the latest source code
