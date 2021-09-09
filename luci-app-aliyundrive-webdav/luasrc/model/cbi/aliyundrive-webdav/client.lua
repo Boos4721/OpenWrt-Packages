@@ -2,6 +2,9 @@ local uci = luci.model.uci.cursor()
 local m, e
 
 m = Map("aliyundrive-webdav", translate("AliyunDriveWebDAV"))
+.. [[<a href="https://github.com/messense/aliyundrive-webdav/blob/main/README.md#%E8%8E%B7%E5%8F%96-refresh_token" target="_blank">]]
+.. translate("使用帮助")
+.. [[</a>]]
 
 m:section(SimpleSection).template = "aliyundrive-webdav/status"
 
