@@ -79,7 +79,7 @@ if nixio.fs.access("/usr/bin/dockerd") and not uci:get_bool("dockerd", "dockerma
 			luci.util.exec("/etc/init.d/dockerd stop")
 		end
 		docker:clear_status()
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/overview"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/overview"))
 	end
 
 	o = s:option(Button, "_restart")
@@ -94,7 +94,7 @@ if nixio.fs.access("/usr/bin/dockerd") and not uci:get_bool("dockerd", "dockerma
 		luci.util.exec("sleep 5")
 		luci.util.exec("/etc/init.d/dockerman start")
 		docker:clear_status()
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/overview"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/overview"))
 	end
 end
 
