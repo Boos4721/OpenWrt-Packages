@@ -13,17 +13,6 @@ if dk:_ping().code ~= 200 then
 	lost_state = true
 end
 
-function byte_format(byte)
-	local suff = {"B", "KB", "MB", "GB", "TB"}
-	for i=1, 5 do
-		if byte > 1024 and i < 5 then
-			byte = byte / 1024
-		else
-			return string.format("%.2f %s", byte, suff[i])
-		end
-	end
-end
-
 m = SimpleForm("dockerd",
 	translate("Docker - Overview"),
 	translate("An overview with the relevant data is displayed here with which the LuCI docker client is connected.")
@@ -79,7 +68,7 @@ if nixio.fs.access("/usr/bin/dockerd") and not uci:get_bool("dockerd", "dockerma
 			luci.util.exec("/etc/init.d/dockerd stop")
 		end
 		docker:clear_status()
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/overview"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/overview"))
 	end
 
 	o = s:option(Button, "_restart")
@@ -94,7 +83,7 @@ if nixio.fs.access("/usr/bin/dockerd") and not uci:get_bool("dockerd", "dockerma
 		luci.util.exec("sleep 5")
 		luci.util.exec("/etc/init.d/dockerman start")
 		docker:clear_status()
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/overview"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/overview"))
 	end
 end
 
@@ -127,11 +116,11 @@ if not lost_state then
 	docker_info_table['3ServerVersion']._value = docker_info.body.ServerVersion
 	docker_info_table['4ApiVersion']._value = docker_info.headers["Api-Version"]
 	docker_info_table['5NCPU']._value = tostring(docker_info.body.NCPU)
-	docker_info_table['6MemTotal']._value = byte_format(docker_info.body.MemTotal)
+	docker_info_table['6MemTotal']._value = docker.byte_format(docker_info.body.MemTotal)
 	if docker_info.body.DockerRootDir then
 		local statvfs = nixio.fs.statvfs(docker_info.body.DockerRootDir)
 		local size = statvfs and (statvfs.bavail * statvfs.bsize) or 0
-		docker_info_table['7DockerRootDir']._value = docker_info.body.DockerRootDir .. " (" .. tostring(byte_format(size)) .. " " .. translate("Available") .. ")"
+		docker_info_table['7DockerRootDir']._value = docker_info.body.DockerRootDir .. " (" .. tostring(docker.byte_format(size)) .. " " .. translate("Available") .. ")"
 	end
 
 	docker_info_table['8IndexServerAddress']._value = docker_info.body.IndexServerAddress
