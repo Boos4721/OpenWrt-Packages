@@ -17,7 +17,7 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   };
   function removePath(filename, isdir) {
-    var c = confirm('Are you sure to delete ' + filename + '?');
+    var c = confirm("Are you sure to delete " + filename + "?");
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/delete',
         {
@@ -34,15 +34,15 @@ String.prototype.replaceAll = function(search, replacement) {
 
   function installPath(filename, isdir) {
     if (isdir === "1") {
-      alert('This's a folder, please select a ipk to install！');
+      alert("This's a folder, please select a ipk to install！");
       return;
     }
     var isipk = isIPK(filename);
     if (isipk === 0) {
-      alert('Only for ipk!');
+      alert("Only for ipk!");
       return;
     }
-    var c = confirm('Are you sure to install  ' + filename + '?');
+    var c = confirm("Are you sure to install  " + filename + "?");
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/install',
         {
@@ -52,9 +52,9 @@ String.prototype.replaceAll = function(search, replacement) {
         function (x, res) {
           if (res.ec === 0) {
             location.reload();
-            alert('Successfully installed!');
+            alert("Successfully installed!");
           } else {
-            alert('Installation failed, please check the file format!');
+            alert("Installation failed, please check the file format!");
           }
       });
     }
@@ -71,7 +71,7 @@ String.prototype.replaceAll = function(search, replacement) {
   }
 
   function renamePath(filename) {
-    var newname = prompt('Please input a new file name：', filename);
+    var newname = prompt("Please input a new file name：", filename);
     if (newname) {
       newname = newname.trim();
       if (newname != filename) {
@@ -263,7 +263,7 @@ String.prototype.replaceAll = function(search, replacement) {
           uploadinput.value = '';
         }
         else {
-          alert('Upload failed, please try again later...');
+          alert("Upload failed, please try again later...");
         }
       };
       xhr.send(formData);
