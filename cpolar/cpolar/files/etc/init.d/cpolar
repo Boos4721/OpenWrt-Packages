@@ -336,6 +336,8 @@ stop_service() {
 	# 				kill -9 ${cpolar_pid}
 	# fi
 
+  killall $NAME
+
 	test -d "$CONFIG_FOLDER" && rm -rf "$CONFIG_FOLDER"
 }
 
