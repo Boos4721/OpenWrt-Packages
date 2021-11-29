@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cpolar
 PKG_VERSION:=3.2.85
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_LICENSE:=MIT
 PKG_MAINTAINER:=cpolar.com
@@ -96,11 +96,6 @@ fi
 
 if [ -s "$${IPKG_INSTROOT}/etc/init.d/cpolar" ] ; then
 	rm -f "$${IPKG_INSTROOT}/etc/init.d/cpolar"
-fi
-
-
-if [ -z "$${IPKG_INSTROOT}" ] ; then
-	rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 fi
 
 exit 0
