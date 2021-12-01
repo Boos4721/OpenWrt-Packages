@@ -13,8 +13,7 @@ PKG_LICENSE:=MIT
 PKG_MAINTAINER:=Michael Zhang <probezy@gmail.com>
 
 LUCI_TITLE:=LuCI support for Cpolar
-LUCI_DEPENDS:=+jshn +luci-lib-jsonc
-# LUCI_DEPENDS:=+jshn +luci-lib-jsonc +lua +libuci-lua +cpolar
+LUCI_DEPENDS:=+jshn +luci-lib-jsonc +lua +libuci-lua +cpolar
 LUCI_PKGARCH:=all
 
 define Package/$(PKG_NAME)/conffiles
