@@ -11,14 +11,14 @@ Luci support for Cpolar
 1. Add new opkg key:
 
 ```sh
-wget -O cpolar-public.key http://openwrt.cpolar.com/packages/public.key
+wget -O cpolar-public.key http://openwrt.cpolar.com/releases/public.key
 opkg-key add cpolar-public.key
 ```
 
 2. Add opkg repository from cpolar:
 
 ```sh
-echo "src/gz cpolar_universal http://openwrt.cpolar.com/packages/releases/all" \
+echo "src/gz cpolar_packages http://openwrt.cpolar.com/releases/packages/$(. /etc/openwrt_release ; echo $DISTRIB_ARCH)" \
   >> /etc/opkg/customfeeds.conf
 opkg update
 ```
@@ -70,3 +70,12 @@ For translations, please install ```luci-i18n-cpolar-*```.
 4. Add your Tunnel rules.
 
 5. Enable the service via LuCI.
+
+## Build
+
+```shell
+git clone https://github.com/probezy/luci-app-cpolar.git
+
+mv  luci-app-cpolar package/
+```
+
