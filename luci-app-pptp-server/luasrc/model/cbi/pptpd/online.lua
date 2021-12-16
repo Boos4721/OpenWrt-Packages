@@ -50,8 +50,8 @@ function _blacklist.render(e, t, a)
 end
 function _blacklist.write(t, s)
     local e = t.map:get(s, "remote_ip")
-    luci.util.execi("echo 'iptables -A input_rule -s %s -p tcp --dport 1723 -j DROP ## pptpd-blacklist-%s' >> /etc/firewall.user" % {e, e})
-    luci.util.execi("iptables -A input_rule -s %s -p tcp --dport 1723 -j DROP" % {e})
+    luci.util.execi("echo 'iptables -I INPUT -s %s -p tcp --dport 1723 -j DROP ## pptpd-blacklist-%s' >> /etc/firewall.user" % {e, e})
+    luci.util.execi("iptables -I INPUT -s %s -p tcp --dport 1723 -j DROP" % {e})
     luci.util.execi("rm -f " .. t.map:get(s, "session_file"))
     null, t.tag_error[s] = luci.sys.process.signal(t.map:get(s, "pid"), 9)
     luci.http.redirect(o.build_url("admin/vpn/pptpd/online"))
@@ -77,7 +77,7 @@ end
 function _blacklist2.write(t, s)
     local e = t.map:get(s, "ip")
     luci.util.execi("sed -i -e '/## pptpd-blacklist-%s/d' /etc/firewall.user" % {e})
-    luci.util.execi("iptables -D input_rule -s %s -p tcp --dport 1723 -j DROP" % {e})
+    luci.util.execi("iptables -D INPUT -s %s -p tcp --dport 1723 -j DROP" % {e})
     luci.http.redirect(o.build_url("admin/vpn/pptpd/online"))
 end
 
