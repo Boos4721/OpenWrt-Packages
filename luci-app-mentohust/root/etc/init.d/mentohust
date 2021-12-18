@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-START=99
+START=90
 
 run_mentohust()
 {
@@ -59,7 +59,7 @@ run_mentohust()
         if [ "$datafile" != "/etc/mentohust/" ] &&  [ "$datafile" != "" ]; then cmd=$cmd" -f"$datafile;fi
         if [ "$dhcpscript" != "udhcpc -i" ] &&  [ "$dhcpscript" != "" ]; then cmd=$cmd" -c'"$dhcpscript"'";fi
 
-        /bin/ash -c "mentohust -u$username -p$password -n$ifname -b3 $cmd"
+        /bin/ash -c "mentohust -u$username -p$password -n$ifname -b3 -w $cmd"
     else
         /bin/ash -c "mentohust -k"
     fi
