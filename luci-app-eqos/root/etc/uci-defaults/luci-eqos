@@ -6,5 +6,4 @@ uci -q get ucitrack.@eqos[0] > /dev/null || {
   uci commit
 }
 
-rm -f /tmp/luci-indexcache
 exit 0

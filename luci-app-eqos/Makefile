@@ -13,14 +13,8 @@ LUCI_DEPENDS:=+tc +kmod-sched-core +kmod-ifb
 LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-eqos
-PKG_VERSION:=1.0.0
-PKG_RELEASE:=2
 
 PKG_MAINTAINER:=Jianhui Zhao <jianhuizhao329@gmail.com>
-
-define Package/luci-app-eqos/conffiles
-/etc/config/eqos
-endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
