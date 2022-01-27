@@ -1272,8 +1272,6 @@ form.inline + form.inline,
 
 .tabs {
     margin: 15px 0;
-    display: flex;
-    align-items: center;
     overflow-x: auto;
 }
 
@@ -2343,6 +2341,10 @@ body.lang_pl.node-main-login .cbi-value-title {
 
     header {
         height: 45px;
+    }
+
+    h3 {
+        padding: 0 10px 10px 10px;
     }
 
     img[src*="/images/logo.png"]
