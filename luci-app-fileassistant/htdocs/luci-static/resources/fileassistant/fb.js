@@ -17,7 +17,7 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   };
   function removePath(filename, isdir) {
-    var c = confirm("Are you sure to delete " + filename + "?");
+    var c = confirm('你确定要删除 ' + filename + ' 吗？');
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/delete',
         {
@@ -34,15 +34,15 @@ String.prototype.replaceAll = function(search, replacement) {
 
   function installPath(filename, isdir) {
     if (isdir === "1") {
-      alert("This's a folder, please select a ipk to install！");
+      alert('这是一个目录，请选择 ipk 文件进行安装！');
       return;
     }
     var isipk = isIPK(filename);
     if (isipk === 0) {
-      alert("Only for ipk!");
+      alert('只允许安装 ipk 格式的文件！');
       return;
     }
-    var c = confirm("Are you sure to install  " + filename + "?");
+    var c = confirm('你确定要安装 ' + filename + ' 吗？');
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/install',
         {
@@ -52,9 +52,9 @@ String.prototype.replaceAll = function(search, replacement) {
         function (x, res) {
           if (res.ec === 0) {
             location.reload();
-            alert("Successfully installed!");
+            alert('安装成功!');
           } else {
-            alert("Installation failed, please check the file format!");
+            alert('安装失败，请检查文件格式!');
           }
       });
     }
@@ -71,7 +71,7 @@ String.prototype.replaceAll = function(search, replacement) {
   }
 
   function renamePath(filename) {
-    var newname = prompt("Please input a new file name：", filename);
+    var newname = prompt('请输入新的文件名：', filename);
     if (newname) {
       newname = newname.trim();
       if (newname != filename) {
@@ -180,7 +180,7 @@ String.prototype.replaceAll = function(search, replacement) {
           var index= o.filename.lastIndexOf(".");
 		  var ext = o.filename.substr(index+1);
           if (ext === 'ipk') {
-            install_btn = '<button class="cbi-button cbi-button-install">Install</button>';
+            install_btn = '<button class="cbi-button cbi-button-install">安装</button>';
           }
 		  
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
@@ -195,8 +195,8 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field cbi-value-size">'+o.size+'</td>'
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
             + '<td class="cbi-section-table-cell">\
-				<button class="cbi-button cbi-button-edit">Rename</button>\
-                <button class="cbi-button cbi-button-remove">Delete</button>'
+				<button class="cbi-button cbi-button-edit">重命名</button>\
+                <button class="cbi-button cbi-button-remove">删除</button>'
 			+ install_btn
 			+ '</td>'
             + '</tr>';
@@ -263,7 +263,7 @@ String.prototype.replaceAll = function(search, replacement) {
           uploadinput.value = '';
         }
         else {
-          alert("Upload failed, please try again later...");
+          alert('上传失败，请稍后再试...');
         }
       };
       xhr.send(formData);
