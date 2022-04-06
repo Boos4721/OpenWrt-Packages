@@ -48,7 +48,7 @@ endif
 
 ifeq ($(ARCH),aarch64)
 	CPOLAR_ARCH:=arm64
-	PKG_HASH:=afbfee975d2fe51b785d09d77c963fd2edc55d4e0810e16024d73e62bbe8d25a
+	PKG_HASH:=3ad4b1c9615ffda079cf699bc037e88543c75e7746ab7c35e273a5a2068e6357
 endif
 
 PKG_SOURCE_URL:=https://www.cpolar.com/static/downloads/releases/$(PKG_VERSION)/
