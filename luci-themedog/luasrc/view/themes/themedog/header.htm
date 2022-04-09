@@ -4,10 +4,13 @@
 	local node = disp.context.dispatched
 	local path = table.concat(disp.context.path, "-")
 	local hostname = luci.sys.hostname()
+	local page = pcdata(table.concat(disp.context.requestpath, "-"))
+	local lang = luci.i18n.context.lang
+	local isindex = path == "admin-themedog"
 	luci.http.prepare_content("text/html; charset=UTF-8")
 -%>
 	<!DOCTYPE html>
-	<html lang="<%=luci.i18n.context.lang%>">
+	<html lang="<%=lang%>">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -17,26 +20,21 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<meta name="theme-color" content="#000">
 		<!--  -->
-		<script type="text/javascript" src="<%=url('admin/translations', luci.i18n.context.lang)%>"></script>
+		<script type="text/javascript" src="<%=url('admin/translations', lang)%>"></script>
 		<script type="text/javascript" src="<%=resource%>/cbi.js?v=0.0.5"></script> 
 		<script type="text/javascript" src="<%=resource%>/xhr.js?v=0.0.5"></script>
 		<!--  -->
-		<link rel="stylesheet" href="<%=media%>/css/cascade.css?v=<%=math.random(1,100000)%>">
-		<link rel="stylesheet" href="<%=media%>/assets/style.css?v=<%=math.random(1,100000)%>">		<!--  -->
+		<%	
+			if ( isindex ) then	
+			else
+		-%>
+			<link rel="stylesheet" href="<%=media%>/css/cascade.css?v=<%=math.random(1,100000)%>">
+			<link rel="stylesheet" href="<%=media%>/css/use.css?v=<%=math.random(1,100000)%>">
+		<%	end	-%>
 		<title>
 			<%=hostname%> - LuCI
 		</title>
-		<!--  -->
-		<script>
-			(function(){
-				window.ThemeDog = {
-					HostName: "<%=hostname%>",
-					BaseURL:"<%=media%>",
-				}
-			})()
-		</script>
 	</head>
-	<body name="<%=hostname%>"   class="lang_<%=luci.i18n.context.lang%> <% if node then %><%= striptags( node.title ) %><%- end %>" data-page="<%= pcdata(table.concat(disp.context.requestpath, "-")) %>">
-		<div id="maincontent"  style="display:none;"> 
-			<!-- 刷新 -->
+	<body name="<%=hostname%>"   class="lang_<%=lang%> <% if node then %><%= striptags( node.title ) %><%- end %>" data-page="<%= page %>">
+		<div id="maincontent" > 
 			<div id="indicators" class="pull-right"></div>
