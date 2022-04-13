@@ -4,8 +4,7 @@ function index()
 	if not nixio.fs.access("/etc/config/eqos") then
 		return
 	end
-	
-	local page
-        entry({"admin", "nas"}, firstchild(), "NAS", 45).dependent = false
-	entry({"admin", "network", "eqos"}, cbi("eqos"), _("EQoS"))
+
+    entry({"admin", "control"}, firstchild(), "Control", 44).dependent = false
+    entry({"admin", "control", "eqos"}, cbi("eqos"), "网速限制", 90).dependent = true
 end
