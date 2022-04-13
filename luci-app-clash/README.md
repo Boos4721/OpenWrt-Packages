@@ -1,33 +1,67 @@
-<h2 align="center">
- <img src="https://cdn.jsdelivr.net/gh/Dreamacro/clash/docs/logo.png" alt="Clash" width="200">
-  <br>Luci App For Clash <br>
-</h2>
+<h1 align="center">
+  <img src="https://github.com/Dreamacro/clash/raw/master/docs/logo.png" alt="Clash" width="200">
+  <br>Clash<br>
+
+</h1>
 
   <p align="center">
-	A rule based custom proxy client for Openwrt based on <a href="https://github.com/Dreamacro/clash" target="_blank">Clash</a>.
-  </p>
-  <p align="center">
-  <a target="_blank" href="https://github.com/frainzy1477/luci-app-clash/releases/tag/v1.7.5.7">
-    <img src="https://img.shields.io/badge/luci%20for%20clash-v1.7.5.7-blue.svg"> 	  
+	<a target="_blank" href="https://github.com/Dreamacro/clash/releases/tag/v1.10.0">
+    <img src="https://img.shields.io/badge/Clash-v1.10.0-blue.svg">
   </a>
-  <a href="https://github.com/frainzy1477/luci-app-clash/releases" target="_blank">
-        <img src="https://img.shields.io/github/downloads/frainzy1477/luci-app-clash/total.svg?style=flat-square"/>
-   </a>
+  <a target="_blank" href="https://github.com/yaof2/luci-app-clash/releases/tag/v1.8.1">
+    <img src="https://img.shields.io/badge/New Release-v1.8.1-orange.svg">
+  </a>
   </p>
-
   
- ## Install
+
+<p align="center">
+本插件是一个可运行在 OpenWrt 上的<a href="https://github.com/Dreamacro/clash" target="_blank"> Clash </a>客户端
+</p>
+<p align="center">
+兼容 Shadowsocks、ShadowsocksR、Vmess、Trojan、Snell 等协议，根据灵活的规则配置实现策略代理。
+</p>
+<p align="center">
+- 感谢<a href="https://github.com/frainzy1477" target="_blank"> frainzy1477 </a>，本插件基于<a href="https://github.com/frainzy1477/luci-app-clash" target="_blank"> Luci For Clash </a>进行二次修整 -
+</p>
+
+特此说明
+---
+
+
+* 这是一个老的版本，比较简洁，所以稍微修整了下。更全更好的clash，请使用openclash。
+* 系统自带的yacd控制面板，属于v0.2.15老版本却能编译成功。自行[下载最新版](https://github.com/haishanh/yacd/releases) 解压后将public目录重命名为yacd。上传usr/share/clash目录（先删除系统自带的yacd版本）即可。
+
+使用手册
+---
+
+
+* [Wiki](https://github.com/vernesong/OpenClash/wiki)
+
+
+
+下载地址
+---
+
+
+* IPK [前往下载](https://github.com/yaof2/luci-app-clash/releases)
+
+安装方法
+---
 - Upload ipk file to tmp folder
 - cd /tmp
 - opkg update
-- opkg install luci-app-clash_v1.7.5.7_all.ipk  
-- opkg install luci-app-clash_v1.7.5.7_all.ipk --force-depends
+- opkg install clash_v1.10.0_all.ipk
+- opkg install luci-app-clash_v1.8.1_all.ipk  
+- opkg install luci-app-clash_v1.8.1_all.ipk --force-depends
 
- ## Uninstall
+卸载方法
+---
+- opkg remove clash 
 - opkg remove luci-app-clash 
 - opkg remove luci-app-clash --force-remove
 
-## Features
+支持
+---
 - Subscription Config
 - Config Upload
 - Create Config
@@ -47,7 +81,8 @@
 - Game Rules 
 - Restore Config
 
-## Dependency
+依赖
+---
 
 - bash
 - coreutils
@@ -66,39 +101,69 @@
 - kmod-tun
 
 
-## compile
+编译
 ---
 
- - Download [SDK](https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk), and it's depends:
-   ```bash
-   sudo apt-get install gawk libncurses5-dev libz-dev zlib1g-dev  git ccache
-   ```
- 
- - Download your own SDK
 
-   ```bash
-   # Untar ar71xx platform
-   tar xjf OpenWrt-SDK-15.05-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
-   cd OpenWrt-SDK-*
-   # update feeds
-   ./scripts/feeds update packages
-   # Clone
-   git clone https://github.com/frainzy1477/luci-app-clash.git package/luci-app-clash
-   # select this package
-   make menuconfig
-   
-   # Compile and install po2lmo bin for build i18n language files
-   pushd package/luci-app-clash/tools/po2lmo
-   make && sudo make install
-   popd
-   # I18n language files
-   po2lmo ./package/luci-app-clash/po/zh-cn/clash.po ./package/luci-app-clash/po/zh-cn/clash.zh-cn.lmo
-   
-   # Compile
-    make package/luci-app-clash/compile V=99
-   ```
-   
-## License  
-Luci App For Clash - OpenWrt is released under the GPL v3.0 License - see detailed [LICENSE](https://github.com/frainzy1477/luci-app-clash/blob/master/LICENSE) .
+从 OpenWrt 的 [SDK](http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk) 编译
+```bash
+# 解压下载好的 SDK
+tar xjf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+cd OpenWrt-SDK-ar71xx-*
+
+# Clone 项目
+mkdir package/luci-app-openclash
+cd package/luci-app-openclash
+git init
+git remote add -f origin https://github.com/yaof2/luci-app-clash.git
+git config core.sparsecheckout true
+echo "luci-app-clash" >> .git/info/sparse-checkout
+git pull --depth 1 origin master
+git branch --set-upstream-to=origin/master master
+
+# 编译 po2lmo (如果有po2lmo可跳过)
+pushd luci-app-clash/tools/po2lmo
+make && sudo make install
+popd
+
+# 开始编译
+
+# 先回退到SDK主目录
+cd ../..
+make package/luci-app-clash/luci-app-clash/compile V=99
+
+# IPK文件位置
+./bin/ar71xx/packages/base/luci-app-clash_1.8.1_all.ipk
+```
+
+```bash
+# 同步源码
+cd package/luci-app-clash/luci-app-clash
+git pull
+
+# 您也可以直接拷贝 `luci-app-clash` 文件夹至其他 `OpenWrt` 项目的 `Package` 目录下随固件编译
+
+make menuconfig
+# 选择要编译的包 LuCI -> Applications -> luci-app-clash
+
+```
 
 
+许可
+---
+
+* 内核 [clash](https://github.com/Dreamacro/clash) by [Dreamacro](https://github.com/Dreamacro)
+* 本项目代码基于 [Luci For Clash](https://github.com/frainzy1477/luci-app-clash) by [frainzy1477](https://github.com/frainzy1477)
+* GEOIP数据库 [GeoLite2](https://dev.maxmind.com/geoip/geoip2/geolite2/) by [MaxMind](https://www.maxmind.com)
+* IP检查 [MyIP](https://github.com/SukkaW/MyIP) by [SukkaW](https://github.com/SukkaW)
+* 控制面板 [clash-dashboard](https://github.com/Dreamacro/clash-dashboard) by [Dreamacro](https://github.com/Dreamacro)
+* 控制面板 [yacd](https://github.com/haishanh/yacd) by [haishanh](https://github.com/haishanh)
+* lhie1规则 [lhie1-Rules](https://github.com/lhie1/Rules) by [lhie1](https://github.com/lhie1)
+* ConnersHua规则 [ConnersHua-Rules](https://github.com/ConnersHua/Profiles/tree/master) by [ConnersHua](https://github.com/ConnersHua)
+* 游戏规则 [SSTap-Rule](https://github.com/FQrabbit/SSTap-Rule) by [FQrabbit](https://github.com/FQrabbit)
+
+
+高级版本请使用Openclash
+---
+
+* [火速前往](https://github.com/vernesong/OpenClash)
