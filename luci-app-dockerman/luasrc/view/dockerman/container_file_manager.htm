@@ -32,7 +32,7 @@
 		function removePath(filename, isdir) {
 			var c = confirm('!!!<%:DELETING%> ' + filename + ' ... <%:PLEASE CONFIRM%>!!!');
 			if (c) {
-				iwxhr.get('<%=luci.dispatcher.build_url("admin/services/docker/container_remove_file")%>/<%=self.container%>',
+				iwxhr.get('<%=luci.dispatcher.build_url("admin/docker/container_remove_file")%>/<%=self.container%>',
 					{
 						path: concatPath(currentPath, filename),
 						isdir: isdir
@@ -51,7 +51,7 @@
 				newname = newname.trim();
 				if (newname != filename) {
 					var newpath = concatPath(currentPath, newname);
-					iwxhr.get('<%=luci.dispatcher.build_url("admin/services/docker/container_rename_file")%>/<%=self.container%>',
+					iwxhr.get('<%=luci.dispatcher.build_url("admin/docker/container_rename_file")%>/<%=self.container%>',
 						{
 							filepath: concatPath(currentPath, filename),
 							newpath: newpath
@@ -68,7 +68,7 @@
 
 		function openpath(filename, dirname) {
 			dirname = dirname || currentPath;
-			window.open('<%=luci.dispatcher.build_url("admin/services/docker/container_get_archive")%>?id=<%=self.container%>&path='
+			window.open('<%=luci.dispatcher.build_url("admin/docker/container_get_archive")%>?id=<%=self.container%>&path='
 				+ encodeURIComponent(dirname + '/' + filename) + '&filename='
 				+ encodeURIComponent(filename))
 		}
@@ -183,7 +183,7 @@
 			opt = opt || {};
 			path = concatPath(path, '');
 			if (currentPath != path) {
-				iwxhr.get('<%=luci.dispatcher.build_url("admin/services/docker/container_list_file")%>/<%=self.container%>',
+				iwxhr.get('<%=luci.dispatcher.build_url("admin/docker/container_list_file")%>/<%=self.container%>',
 					{ path: path },
 					function (x, res) {
 						if (res.ec === 0) {
@@ -223,7 +223,6 @@
 
 		function fileByte2Tar(tarFile, fileName, fileBytes) {
 			if (!tarFile) tarFile = TarFile.create(fileName)
-
 			var tarHeader = TarFileEntryHeader.default();
 			var tarFileEntryHeader = new TarFileEntryHeader
 				(
@@ -289,7 +288,7 @@
 			formData.append('upload-path', concatPath(currentPath, ''))
 			formData.append('upload-archive', bytesToWriteAsBlob)
 			let xhr = new XMLHttpRequest()
-			xhr.open("POST", '<%=luci.dispatcher.build_url("admin/services/docker/container_put_archive")%>/<%=self.container%>', true)
+			xhr.open("POST", '<%=luci.dispatcher.build_url("admin/docker/container_put_archive")%>/<%=self.container%>', true)
 			xhr.onload = function () {
 				if (xhr.status == 200) {
 					uploadArchive.value = ''
