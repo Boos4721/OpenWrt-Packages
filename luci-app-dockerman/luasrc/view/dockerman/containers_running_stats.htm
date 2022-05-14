@@ -9,7 +9,7 @@
 	}
 
 	fnWindowLoad = function () {
-		XHR.get('<%=luci.dispatcher.build_url("admin/services/docker/get_system_df")%>/', null, (x, info)=>{
+		XHR.get('<%=luci.dispatcher.build_url("admin/docker/get_system_df")%>/', null, (x, info)=>{
 			if(!info || !info.Containers || !info.Containers.forEach) return
 			info.Containers.forEach(item=>{
 				const size_c =	document.getElementsByClassName("container_size_" + item.Id)
@@ -27,7 +27,7 @@
 			if (!containerId) { return }
 			containerId = containerId[1]
 			if (item.getElementsByClassName("container_not_running").length > 0) { return }
-			XHR.poll(interval, '<%=luci.dispatcher.build_url("admin/services/docker/container_stats")%>/' + containerId, null, (x, info) => {
+			XHR.poll(interval, '<%=luci.dispatcher.build_url("admin/docker/container_stats")%>/' + containerId, null, (x, info) => {
 				// handle stats info
 				if (!info) { return }
 				item.childNodes.forEach((cell) => {
@@ -51,7 +51,7 @@
 			})
 			// containers.push(containerId)
 		})
-		// XHR.post('<%=luci.dispatcher.build_url("admin/services/docker/containers_stats")%>', {
+		// XHR.post('<%=luci.dispatcher.build_url("admin/docker/containers_stats")%>', {
 		// 	containers: JSON.stringify(containers)
 		// }, (x, info) => {
 		// 	lines.forEach((item) => {

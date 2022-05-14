@@ -442,7 +442,7 @@ elseif cmd_line and cmd_line:match("^duplicate/[^/]+$") then
 end
 
 m = SimpleForm("docker", translate("Docker - Containers"))
-m.redirect = luci.dispatcher.build_url("admin", "services", "docker", "containers")
+m.redirect = luci.dispatcher.build_url("admin", "docker", "containers")
 if lost_state then
 	m.submit=false
 	m.reset=false
@@ -566,7 +566,7 @@ o = s:option(Flag, "advance", translate("Advance"))
 o.rmempty = true
 o.disabled = 0
 o.enabled = 1
-o.default =  0
+o.default = default_config.advance or 0
 
 o = s:option(Value, "hostname",
 	translate("Host Name"),
@@ -886,7 +886,7 @@ m.handle = function(self, state, data)
 		else
 			res.code = (res.code == 200) and 500 or res.code
 			docker:append_status("code:" .. res.code.." ".. (res.body[#res.body] and res.body[#res.body].error or (res.body.message or res.message)).. "\n")
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/newcontainer"))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/newcontainer"))
 		end
 	end
 
@@ -913,10 +913,10 @@ m.handle = function(self, state, data)
 	local res = dk.containers:create({name = name, body = create_body})
 	if res and res.code and res.code == 201 then
 		docker:clear_status()
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/containers"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/containers"))
 	else
 		docker:append_status("code:" .. res.code.." ".. (res.body.message and res.body.message or res.message))
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/newcontainer"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/newcontainer"))
 	end
 end
 
