@@ -108,7 +108,7 @@ o.inputstyle = "add"
 o.forcewrite = true
 o.disable = lost_state
 o.write = function(self, section)
-	luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/newnetwork"))
+	luci.http.redirect(luci.dispatcher.build_url("admin/docker/newnetwork"))
 end
 
 o = s:option(Button, "_remove")
@@ -152,7 +152,7 @@ o.write = function(self, section)
 		if success then
 			docker:clear_status()
 		end
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/networks"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/networks"))
 	end
 end
 
