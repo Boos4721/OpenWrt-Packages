@@ -1,9 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Copyright (c) 2018-2020 Nick Peng (pymumu@gmail.com)
-# This is free software, licensed under the GNU General Public License v3.
-#
+# Copyright (C) 2018-2020 Ruilin Peng (Nick) <pymumu@gmail.com>.
 
 include $(TOPDIR)/rules.mk
+
 PKG_NAME:=smartdns
 PKG_VERSION:=36.1
 PKG_RELEASE:=$(AUTORELEASE)
@@ -51,8 +51,8 @@ define Package/smartdns/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/package/openwrt/files/etc/init.d/smartdns $(1)/etc/init.d/smartdns
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
-	$(INSTALL_CONF) ./conf/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) ./conf/smartdns.conf $(1)/etc/config/smartdns
+	$(INSTALL_CONF) $(CURDIR)/conf/custom.conf $(1)/etc/smartdns/custom.conf
+	$(INSTALL_CONF) $(CURDIR)/conf/smartdns.conf $(1)/etc/config/smartdns
 endef
 
 $(eval $(call BuildPackage,smartdns))
