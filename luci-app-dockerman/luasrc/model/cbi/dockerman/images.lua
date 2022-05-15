@@ -51,7 +51,7 @@ function get_images()
 		for ci,cv in ipairs(containers) do
 			if v.Id == cv.ImageID then
 				data[index]["_containers"] = (data[index]["_containers"] and (data[index]["_containers"] .. " | ") or "")..
-				'<a href='..luci.dispatcher.build_url("admin/services/docker/container/"..cv.Id)..' class="dockerman_link" title="'..translate("Container detail")..'">'.. cv.Names[1]:sub(2).."</a>"
+				'<a href='..luci.dispatcher.build_url("admin/docker/container/"..cv.Id)..' class="dockerman_link" title="'..translate("Container detail")..'">'.. cv.Names[1]:sub(2).."</a>"
 			end
 		end
 
@@ -114,7 +114,7 @@ o.write = function(self, section)
 		docker:append_status("code: 400 please input the name of image name!")
 	end
 
-	luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/images"))
+	luci.http.redirect(luci.dispatcher.build_url("admin/docker/images"))
 end
 
 s = m:section(SimpleSection,
@@ -185,7 +185,7 @@ local remove_action = function(force)
 			docker:clear_status()
 		end
 
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/images"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/images"))
 	end
 end
 
