@@ -17,7 +17,7 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   };
   function removePath(filename, isdir) {
-    var c = confirm("Are you sure to delete " + filename + "?");
+    var c = confirm('你确定要删除 ' + filename + ' 吗？');
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/delete',
         {
@@ -34,15 +34,15 @@ String.prototype.replaceAll = function(search, replacement) {
 
   function installPath(filename, isdir) {
     if (isdir === "1") {
-      alert("This's a folder, please select a ipk to install！");
+      alert('这是一个目录，请选择 ipk 文件进行安装！');
       return;
     }
     var isipk = isIPK(filename);
     if (isipk === 0) {
-      alert("Only for ipk!");
+      alert('只允许安装 ipk 格式的文件！');
       return;
     }
-    var c = confirm("Are you sure to install  " + filename + "?");
+    var c = confirm('你确定要安装 ' + filename + ' 吗？');
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/install',
         {
@@ -52,9 +52,9 @@ String.prototype.replaceAll = function(search, replacement) {
         function (x, res) {
           if (res.ec === 0) {
             location.reload();
-            alert("Successfully installed!");
+            alert('安装成功!');
           } else {
-            alert("Installation failed, please check the file format!");
+            alert('安装失败，请检查文件格式!');
           }
       });
     }
@@ -71,7 +71,7 @@ String.prototype.replaceAll = function(search, replacement) {
   }
 
   function renamePath(filename) {
-    var newname = prompt("Please input a new file name：", filename);
+    var newname = prompt('请输入新的文件名：', filename);
     if (newname) {
       newname = newname.trim();
       if (newname != filename) {
@@ -88,6 +88,40 @@ String.prototype.replaceAll = function(search, replacement) {
           }
         );
       }
+    }
+  }
+
+  function chmodPath(filename, isdir) {
+    var newmod = prompt('请输入新的权限位（支持八进制权限位或者a+x格式）：', isdir === "1" ? "0755" : "0644");
+    if (newmod) {
+      iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/chmod',
+        {
+          filepath: concatPath(currentPath, filename),
+          newmod: newmod
+        },
+        function (x, res) {
+          if (res.ec === 0) {
+            refresh_list(res.data, currentPath);
+          }
+        }
+      );
+    }
+  }
+
+  function chownPath(filename) {
+    var newown = prompt('请输入新的用户名（支持用户名或用户名:群组格式）：', "root");
+    if (newown) {
+      iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/chown',
+        {
+          filepath: concatPath(currentPath, filename),
+          newown: newown
+        },
+        function (x, res) {
+          if (res.ec === 0) {
+            refresh_list(res.data, currentPath);
+          }
+        }
+      );
     }
   }
 
@@ -130,6 +164,13 @@ String.prototype.replaceAll = function(search, replacement) {
     else if (targetElem.className.indexOf('cbi-button-edit') > -1) {
       renamePath(targetElem.parentNode.parentNode.dataset['filename']);
     }
+    else if (targetElem.className.indexOf('cbi-button-chmod') > -1) {
+      infoElem = targetElem.parentNode.parentNode;
+      chmodPath(infoElem.dataset['filename'] , infoElem.dataset['isdir']);
+    }
+    else if (targetElem.className.indexOf('cbi-button-chown') > -1) {
+      chownPath(targetElem.parentNode.parentNode.dataset['filename']);
+    }
     else if (targetElem = getFileElem(targetElem)) {
       if (targetElem.className.indexOf('parent-icon') > -1) {
         update_list(currentPath.replace(/\/[^/]+($|\/$)/, ''));
@@ -156,7 +197,14 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   }
   function refresh_list(filenames, path) {
-    var listHtml = '<table class="cbi-section-table"><tbody>';
+    var listHtml = '<table class="cbi-section-table"><thead><tr class="cbi-section-table-row cbi-rowstyle-2">'
+      +'<td class="cbi-value-field">文件</td>'
+      +'<td class="cbi-value-field">所有者</td>'
+      +'<td class="cbi-value-field">修改时间</td>'
+      +'<td class="cbi-value-field">大小</td>'
+      +'<td class="cbi-value-field">权限</td>'
+      +'<td class="cbi-section-table-cell">操作</td>'
+      +'</tr></thead><tbody>';
     if (path !== '/') {
       listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-2"><td class="parent-icon" colspan="6"><strong>..</strong></td></tr>';
     }
@@ -180,7 +228,7 @@ String.prototype.replaceAll = function(search, replacement) {
           var index= o.filename.lastIndexOf(".");
 		  var ext = o.filename.substr(index+1);
           if (ext === 'ipk') {
-            install_btn = '<button class="cbi-button cbi-button-install">Install</button>';
+            install_btn = '<button class="cbi-button cbi-button-install">安装</button>';
           }
 		  
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
@@ -195,8 +243,10 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field cbi-value-size">'+o.size+'</td>'
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
             + '<td class="cbi-section-table-cell">\
-				<button class="cbi-button cbi-button-edit">Rename</button>\
-                <button class="cbi-button cbi-button-remove">Delete</button>'
+				<button class="cbi-button cbi-button-edit">重命名</button>\
+                <button class="cbi-button cbi-button-remove">删除</button>\
+                <button class="cbi-button cbi-button-apply cbi-button-chmod">改权限</button>\
+                <button class="cbi-button cbi-button-apply cbi-button-chown">改用户</button>'
 			+ install_btn
 			+ '</td>'
             + '</tr>';
@@ -263,13 +313,33 @@ String.prototype.replaceAll = function(search, replacement) {
           uploadinput.value = '';
         }
         else {
-          alert("Upload failed, please try again later...");
+          alert('上传失败，请稍后再试...');
         }
       };
       xhr.send(formData);
     }
   };
 
+  document.getElementById('mkdir-toggle').onclick = function() {
+    var dirname = null;
+    if (dirname = prompt("请输入文件夹名称：")) {
+      var formData = new FormData();
+      formData.append('path', currentPath);
+      formData.append('dirname', dirname);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cgi-bin/luci/admin/nas/fileassistant/mkdir", true);
+      xhr.onload = function() {
+        if (xhr.status == 200) {
+          var res = JSON.parse(xhr.responseText);
+          refresh_list(res.data, currentPath);
+        }
+        else {
+          alert('创建失败，请稍后再试...');
+        }
+      };
+      xhr.send(formData);
+    }
+  };
   document.addEventListener('DOMContentLoaded', function(evt) {
     var initPath = '/';
     if (/path=([/\w]+)/.test(location.search)) {
