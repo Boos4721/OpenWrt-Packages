@@ -1,0 +1,83 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:16
+msgid "Client Settings"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:11
+msgid "Collecting data..."
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:13
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:21
+msgid "Enabled"
+msgstr ""
+
+#: luci-app-timecontrol/root/usr/share/rpcd/acl.d/luci-app-timecontrol.json:3
+msgid "Grant UCI access for luci-app-timecontrol"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:3
+msgid "Internet Time Control"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/view/timecontrol/index.htm:8
+msgid "NOT RUNNING"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/view/timecontrol/index.htm:8
+msgid "RUNNING"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:9
+msgid "Status"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:41
+msgid "一"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:43
+msgid "三"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:42
+msgid "二"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:45
+msgid "五"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:33
+msgid "停控时间"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:46
+msgid "六"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:44
+msgid "四"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:47
+msgid "日"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/controller/timecontrol.lua:7
+msgid "时间控制"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:37
+msgid "星期<font color=\"green\">(至少选一天，某天不选则该天不进行控制)</font>"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:29
+msgid "起控时间"
+msgstr ""
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:24
+msgid "黑名单MAC<font color=\"green\">(留空则过滤全部客户端)</font>"
+msgstr ""

@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:16
+msgid "Client Settings"
+msgstr "Client Settings"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:11
+msgid "Collecting data..."
+msgstr "Collecting data..."
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:13
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:21
+msgid "Enabled"
+msgstr "Enabled"
+
+#: luci-app-timecontrol/root/usr/share/rpcd/acl.d/luci-app-timecontrol.json:3
+msgid "Grant UCI access for luci-app-timecontrol"
+msgstr "Grant UCI access for luci-app-timecontrol"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:3
+msgid "Internet Time Control"
+msgstr "Internet Time Control"
+
+#: luci-app-timecontrol/luasrc/view/timecontrol/index.htm:8
+msgid "NOT RUNNING"
+msgstr "NOT RUNNING"
+
+#: luci-app-timecontrol/luasrc/view/timecontrol/index.htm:8
+msgid "RUNNING"
+msgstr "RUNNING"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:9
+msgid "Status"
+msgstr "Status"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:41
+msgid "一"
+msgstr "1"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:43
+msgid "三"
+msgstr "3"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:42
+msgid "二"
+msgstr "2"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:45
+msgid "五"
+msgstr "5"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:33
+msgid "停控时间"
+msgstr "Out of control time"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:46
+msgid "六"
+msgstr "6"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:44
+msgid "四"
+msgstr "4"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:47
+msgid "日"
+msgstr "day"
+
+#: luci-app-timecontrol/luasrc/controller/timecontrol.lua:7
+msgid "时间控制"
+msgstr "time control"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:37
+msgid "星期<font color=\"green\">(至少选一天，某天不选则该天不进行控制)</font>"
+msgstr "Week <font color=\"green\">(Select at least one day, if you don’t select a day, the day will not be controlled)</font>"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:29
+msgid "起控时间"
+msgstr "Control time"
+
+#: luci-app-timecontrol/luasrc/model/cbi/timecontrol.lua:24
+msgid "黑名单MAC<font color=\"green\">(留空则过滤全部客户端)</font>"
+msgstr "Blacklist MAC<font color=\"green\">(leave blank to filter all clients)</font>"
