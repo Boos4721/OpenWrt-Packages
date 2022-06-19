@@ -177,13 +177,13 @@ local start_stop_remove = function(m, cmd)
 
 	if res and res.code >= 300 then
 		docker:append_status("code:" .. res.code.." ".. (res.body.message and res.body.message or res.message))
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/container/"..container_id))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/container/"..container_id))
 	else
 		docker:clear_status()
 		if cmd ~= "remove" and cmd ~= "upgrade" then
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/container/"..container_id))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/container/"..container_id))
 		else
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/containers"))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/containers"))
 		end
 	end
 end
@@ -191,7 +191,7 @@ end
 m=SimpleForm("docker",
 	translatef("Docker - Container (%s)", container_info.Name:sub(2)),
 	translate("On this page, the selected container can be managed."))
-m.redirect = luci.dispatcher.build_url("admin/services/docker/containers")
+m.redirect = luci.dispatcher.build_url("admin/docker/containers")
 
 s = m:section(SimpleSection)
 s.template = "dockerman/apply_widget"
@@ -248,7 +248,7 @@ o.inputtitle=translate("Export")
 o.inputstyle = "apply"
 o.forcewrite = true
 o.write = function(self, section)
-  luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/container_export/"..container_id))
+  luci.http.redirect(luci.dispatcher.build_url("admin/docker/container_export/"..container_id))
 end
 
 o = s:option(Button, "_upgrade")
@@ -266,7 +266,7 @@ o.inputtitle=translate("Duplicate/Edit")
 o.inputstyle = "add"
 o.forcewrite = true
 o.write = function(self, section)
-	luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/newcontainer/duplicate/"..container_id))
+	luci.http.redirect(luci.dispatcher.build_url("admin/docker/newcontainer/duplicate/"..container_id))
 end
 
 o = s:option(Button, "_remove")
@@ -565,7 +565,7 @@ if action == "info" then
 		else
 			docker:clear_status()
 		end
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/container/"..container_id.."/info"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/container/"..container_id.."/info"))
 	end
 elseif action == "resources" then
 	s = m:section(SimpleSection)
@@ -633,7 +633,7 @@ elseif action == "resources" then
 			else
 				docker:clear_status()
 			end
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/container/"..container_id.."/resources"))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/container/"..container_id.."/resources"))
 		end
 	end
 
@@ -720,8 +720,8 @@ elseif action == "console" then
 			local ttyd_ssl_key = uci:get("ttyd", "@ttyd[0]", "ssl_key")
 			local ttyd_ssl_cert = uci:get("ttyd", "@ttyd[0]", "ssl_cert")
 
-			if ttyd_ssl=="1" and ttyd_ssl_cert and ttyd_ssl_key then
-				cmd_ttyd=string.format('%s -S -C %s -K %s',cmd_ttyd,ttyd_ssl_cert,ttyd_ssl_key)
+			if ttyd_ssl == "1" and ttyd_ssl_cert and ttyd_ssl_key then
+				cmd_ttyd = string.format('%s -S -C %s -K %s', cmd_ttyd, ttyd_ssl_cert, ttyd_ssl_key)
 			end
 
 			local pid = luci.util.trim(luci.util.exec("netstat -lnpt | grep :7682 | grep ttyd | tr -s ' ' | cut -d ' ' -f7 | cut -d'/' -f1"))
