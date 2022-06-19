@@ -26,7 +26,7 @@ function get_volumes()
 			for vi, vv in ipairs(cv.Mounts) do
 				if v.Name == vv.Name then
 					data[index]["_containers"] = (data[index]["_containers"] and (data[index]["_containers"] .. " | ") or "")..
-					'<a href='..luci.dispatcher.build_url("admin/services/docker/container/"..cv.Id)..' class="dockerman_link" title="'..translate("Container detail")..'">'.. cv.Names[1]:sub(2)..'</a>'
+					'<a href='..luci.dispatcher.build_url("admin/docker/container/"..cv.Id)..' class="dockerman_link" title="'..translate("Container detail")..'">'.. cv.Names[1]:sub(2)..'</a>'
 				end
 			end
 		end
@@ -46,7 +46,6 @@ function get_volumes()
 
 	return data
 end
-
 if dk:_ping().code ~= 200 then
 	lost_state = true
 else
@@ -83,12 +82,9 @@ o.write = function(self, section, value)
 end
 
 o = s:option(DummyValue, "_name", translate("Name"))
-
 o = s:option(DummyValue, "_driver", translate("Driver"))
-
 o = s:option(DummyValue, "_containers", translate("Containers"))
 o.rawhtml = true
-
 o = s:option(DummyValue, "_mountpoint", translate("Mount Point"))
 o = s:option(DummyValue, "_size", translate("Size"))
 o.rawhtml = true
@@ -139,7 +135,7 @@ o.write = function(self, section)
 		if success then
 			docker:clear_status()
 		end
-		luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/volumes"))
+		luci.http.redirect(luci.dispatcher.build_url("admin/docker/volumes"))
 	end
 end
 
