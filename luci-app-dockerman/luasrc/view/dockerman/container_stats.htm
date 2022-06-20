@@ -2,6 +2,7 @@
 	let last_bw_tx
 	let last_bw_rx
 	let interval = 3
+
 	function progressbar(v, m, pc, np, f) {
 		m = m || 100
 
@@ -25,7 +26,7 @@
 		return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 	}
 
-	XHR.poll(interval, '<%=luci.dispatcher.build_url("admin/services/docker/container_stats")%>/<%=self.container_id%>', { status: 1 },
+	XHR.poll(interval, '<%=luci.dispatcher.build_url("admin/docker/container_stats")%>/<%=self.container_id%>', { status: 1 },
 		function (x, info) {
 			var e;
 
