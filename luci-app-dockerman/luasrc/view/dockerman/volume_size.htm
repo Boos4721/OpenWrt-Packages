@@ -9,7 +9,7 @@
 	}
 
 	fnWindowLoad = function () {
-		XHR.get('<%=luci.dispatcher.build_url("admin/services/docker/get_system_df")%>/', null, (x, info)=>{
+		XHR.get('<%=luci.dispatcher.build_url("admin/docker/get_system_df")%>/', null, (x, info)=>{
 			if(!info || !info.Volumes || !info.Volumes.forEach) return
 			info.Volumes.forEach(item=>{
         console.log(info)
