@@ -150,21 +150,18 @@ gen_config_file(){
 			}
 		EOF
 		;;
-	v2ray)
+	v2ray|hysteria)
 		[ $rtype = udp ] && smode=udp || smode=tcp
 		[ $rtype = socks ] && lport=0
 		lua $BIN_DIR/gen_config $1 $smode $lport $ssport $serv_ip >$config_file
 		sed -i 's/\\//g' $config_file
 		;;
 	trojan)
+		case $rtype in
 		tcp|udp|nf) smode=nat;;
 		socks) smode=client;;
-		lua $BIN_DIR/gen_config $1 $smode $lport $ssport $serv_ip >$config_file
-		sed -i 's/\\//g' $config_file
-		;;
-	hysteria)
-		[ $rtype = udp ] && smode=udp || smode=tcp
-		lua $BIN_DIR/gen_config $1 $smode $lport $ssport $serv_ip >$config_file
+		esac
+		lua $BIN_DIR/gentrojanconfig $1 $smode $lport $serv_ip $threads >$config_file
 		sed -i 's/\\//g' $config_file
 		;;
 	esac
