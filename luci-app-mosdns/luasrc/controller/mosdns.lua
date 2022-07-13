@@ -4,11 +4,11 @@ function index()
 	if not nixio.fs.access("/etc/config/mosdns") then
 		return
 	end
-	
+
 	local page = entry({"admin", "services", "mosdns"}, alias("admin", "services", "mosdns", "basic"), _("MosDNS"), 30)
 	page.dependent = true
 	page.acl_depends = { "luci-app-mosdns" }
-	
+
 	entry({"admin", "services", "mosdns", "basic"}, cbi("mosdns/basic"), _("Basic Setting"), 1).leaf = true
 	entry({"admin", "services", "mosdns", "rule_list"}, cbi("mosdns/rule_list"), _("Rule List"), 2).leaf = true
 	entry({"admin", "services", "mosdns", "update"}, cbi("mosdns/update"), _("Geodata Update"), 3).leaf = true
@@ -26,9 +26,9 @@ function act_status()
 end
 
 function get_log()
-	luci.http.write(luci.sys.exec("[ -f $(uci -q get mosdns.mosdns.logfile) ] && cat $(uci -q get mosdns.mosdns.logfile)"))
+	luci.http.write(luci.sys.exec("cat $(/usr/share/mosdns/log_path.sh)"))
 end
 
 function clear_log()
-	luci.sys.call("cat /dev/null > $(uci -q get mosdns.mosdns.logfile)")
+	luci.sys.call("cat /dev/null > $(/usr/share/mosdns/log_path.sh)")
 end
