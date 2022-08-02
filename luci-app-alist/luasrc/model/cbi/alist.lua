@@ -3,9 +3,9 @@ local sys  = require "luci.sys"
 
 if sys.call("pidof alist >/dev/null") == 0 then
 	local password = sys.exec("/usr/bin/alist --conf /etc/alist/config.json -password | awk '{print $3}'")
-	m = Map("alist", translate("Alist"), translate("Alist is an file list program that supports multiple storage.") .. " " .. translate("manage password:") .. "<font color=\"green\">" .. password .. "</font>" .. "<br/>" .. [[<a href="https://alist-doc.nn.ci/docs/driver/native" target="_blank">]] .. translate("User Manual") .. [[</a>]])
+	m = Map("alist", translate("Alist"), translate("A file list program that supports multiple storage.") .. " " .. translate("manage password:") .. "<font color=\"green\">" .. password .. "</font>" .. "<br/>" .. [[<a href="https://alist-doc.nn.ci/docs/driver/native" target="_blank">]] .. translate("User Manual") .. [[</a>]])
 else
-	m = Map("alist", translate("Alist"), translate("Alist is an file list program that supports multiple storage.") .. "<br/>" .. [[<a href="https://alist-doc.nn.ci/docs/driver/native" target="_blank">]] .. translate("User Manual") .. [[</a>]])
+	m = Map("alist", translate("Alist"), translate("A file list program that supports multiple storage.") .. "<br/>" .. [[<a href="https://alist-doc.nn.ci/docs/driver/native" target="_blank">]] .. translate("User Manual") .. [[</a>]])
 end
 
 m:section(SimpleSection).template  = "alist_status"
