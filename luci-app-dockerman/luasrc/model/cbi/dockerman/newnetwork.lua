@@ -13,7 +13,7 @@ if dk:_ping().code ~= 200 then
 end
 
 m = SimpleForm("docker", translate("Docker - Network"))
-m.redirect = luci.dispatcher.build_url("admin", "services", "docker", "networks")
+m.redirect = luci.dispatcher.build_url("admin", "docker", "networks")
 if lost_state then
 	m.submit=false
 	m.reset=false
@@ -247,10 +247,10 @@ m.handle = function(self, state, data)
 			end
 
 			docker:clear_status()
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/networks"))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/networks"))
 		else
 			docker:append_status("code:" .. res.code.." ".. (res.body.message and res.body.message or res.message).. "\n")
-			luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/newnetwork"))
+			luci.http.redirect(luci.dispatcher.build_url("admin/docker/newnetwork"))
 		end
 	end
 end
