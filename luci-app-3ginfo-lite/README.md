@@ -27,6 +27,7 @@ Supported devices (tested devices):
  - Huawei E3372/E3276
  - Huawei E3276 HiLink
  - Huawei E5786 (mobile-wifi / HiLink)
+ - Telit Ln940 / HP lt4220
  
 Not tested devices (Not all data can be shown and scripts need to be corrected):
  - Sierra Wireless MC7710
@@ -70,7 +71,7 @@ opkg install /tmp/luci-app-3ginfo-lite_1.0.17-20220701_all.ipk
 
 ### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32"> Preview / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32"> Podgląd
 
-![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/1.0.15-20220325.gif?raw=true)
+![](https://github.com/4IceG/Personal_data/blob/master/3ginfo-lite.png?raw=true)
 
 ## <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32"> Thanks to / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32"> Podziękowania dla
 - [obsy (Cezary Jackiewicz)](https://github.com/obsy)
