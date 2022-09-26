@@ -23,7 +23,7 @@ define Download/$(PKG_NAME)-web
   FILE:=$(PKG_NAME)-web-$(PKG_WEB_VERSION).tar.gz
   URL_FILE:=dist.tar.gz
   URL:=https://github.com/alist-org/alist-web/releases/download/$(PKG_WEB_VERSION)/
-  HASH:=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  HASH:=2cbf1a245ab477499dfd3970fb898bf2748c090045fd2e3a107a5082d385e1f8
 endef
 
 PKG_CONFIG_DEPENDS:=CONFIG_ALIST_COMPRESS_UPX
