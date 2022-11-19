@@ -7,15 +7,15 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-passwall
 PKG_VERSION:=4.55
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_CONFIG_DEPENDS:= \
-	CONFIG_PACKAGE_$(PKG_NAME)_Transparent_Proxy \
+	CONFIG_PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy \
+	CONFIG_PACKAGE_$(PKG_NAME)_Nftables_Transparent_Proxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Brook \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS_NG \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_NaiveProxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server \
@@ -40,7 +40,6 @@ LUCI_DEPENDS:=+coreutils +coreutils-base64 +coreutils-nohup +curl \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS_NG:chinadns-ng \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy:haproxy \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria:hysteria \
-	+PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat:ip6tables-mod-nat \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_NaiveProxy:naiveproxy \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client:shadowsocks-libev-ss-local \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client:shadowsocks-libev-ss-redir \
@@ -61,19 +60,30 @@ LUCI_DEPENDS:=+coreutils +coreutils-base64 +coreutils-nohup +curl \
 define Package/$(PKG_NAME)/config
 menu "Configuration"
 
-config PACKAGE_$(PKG_NAME)_Transparent_Proxy
-	bool "Transparent Proxy"
+config PACKAGE_$(PKG_NAME)_Iptables_Transparent_Proxy
+	bool "Iptables Transparent Proxy"
 	select PACKAGE_dnsmasq-full
 	select PACKAGE_ipset
 	select PACKAGE_ipt2socks
 	select PACKAGE_iptables
-	select PACKAGE_iptables-legacy
+	select PACKAGE_iptables-zz-legacy
 	select PACKAGE_iptables-mod-conntrack-extra
 	select PACKAGE_iptables-mod-iprange
 	select PACKAGE_iptables-mod-socket
 	select PACKAGE_iptables-mod-tproxy
 	select PACKAGE_kmod-ipt-nat
-	default y
+	depends on PACKAGE_$(PKG_NAME)
+	default y if ! PACKAGE_firewall4
+
+config PACKAGE_$(PKG_NAME)_Nftables_Transparent_Proxy
+	bool "Nftables Transparent Proxy"
+	select PACKAGE_dnsmasq-full
+	select PACKAGE_nftables
+	select PACKAGE_kmod-nft-socket
+	select PACKAGE_kmod-nft-tproxy
+	select PACKAGE_kmod-nft-nat
+	depends on PACKAGE_$(PKG_NAME)
+	default y if PACKAGE_firewall4
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Brook
 	bool "Include Brook"
@@ -81,7 +91,8 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Brook
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS_NG
 	bool "Include ChinaDNS-NG"
-	default y
+	select PACKAGE_ipset
+	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy
 	bool "Include Haproxy"
@@ -89,11 +100,6 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria
 	bool "Include Hysteria"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_IPv6_Nat
-	depends on PACKAGE_ip6tables
-	bool "Include IPv6 Nat"
 	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_NaiveProxy

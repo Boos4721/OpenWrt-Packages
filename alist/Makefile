@@ -7,13 +7,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alist
-PKG_VERSION:=3.0.2
-PKG_WEB_VERSION:=3.0.2
+PKG_VERSION:=3.4.0
+PKG_WEB_VERSION:=3.4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/alist-org/alist/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=a8d9af1a920f040f7c20157c90700b58cd61e568de1527b231dc0181c5d16713
+PKG_HASH:=34e8f31d6a87360c79dfe8376a0174c8b2d4c5294f9b7da17e8d6eff59f0812b
 
 PKG_LICENSE:=GPL-3.0
 PKG_LICENSE_FILE:=LICENSE
@@ -23,10 +23,12 @@ define Download/$(PKG_NAME)-web
   FILE:=$(PKG_NAME)-web-$(PKG_WEB_VERSION).tar.gz
   URL_FILE:=dist.tar.gz
   URL:=https://github.com/alist-org/alist-web/releases/download/$(PKG_WEB_VERSION)/
-  HASH:=2cbf1a245ab477499dfd3970fb898bf2748c090045fd2e3a107a5082d385e1f8
+  HASH:=8f2b4f154cf3361cfd862fc8513f26b1fd34e27844c6c1afafefd900d2d3f084
 endef
 
-PKG_CONFIG_DEPENDS:=CONFIG_ALIST_COMPRESS_UPX
+PKG_CONFIG_DEPENDS:= \
+	CONFIG_ALIST_COMPRESS_GOPROXY \
+	CONFIG_ALIST_COMPRESS_UPX
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
@@ -63,7 +65,16 @@ define Package/$(PKG_NAME)/config
 config ALIST_COMPRESS_UPX
 	bool "Compress executable files with UPX"
 	default n
+
+config ALIST_COMPRESS_GOPROXY
+	bool "Compiling with GOPROXY proxy"
+	default n
 endef
+
+ifeq ($(CONFIG_ALIST_COMPRESS_GOPROXY),y)
+	export GO111MODULE=on
+	export GOPROXY=https://mirrors.aliyun.com/goproxy/
+endif
 
 define Build/Prepare
 	$(call Build/Prepare/Default)

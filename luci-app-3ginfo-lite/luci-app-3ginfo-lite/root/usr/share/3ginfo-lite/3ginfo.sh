@@ -99,8 +99,17 @@ if [ "x$DEVICE" = "x" ]; then
 	echo '{"error":"Device not found"}'
 	exit 0
 fi
+	
+	SECT=$(uci -q get 3ginfo.@3ginfo[0].network)
 
-	SEC=$(uci -q get 3ginfo.@3ginfo[0].network)
+	SUB='@'
+	if [[ "$SECT" == *"$SUB"* ]]; then
+		SEC=$(echo $SECT | sed 's/@//')
+	else
+		SEC=$(uci -q get 3ginfo.@3ginfo[0].network)
+	fi
+	
+	
 	if [ -z "$SEC" ]; then
 		getpath $DEVICE
 		PORIG=$P
@@ -224,6 +233,12 @@ case "$T" in
 	5*)
 		REG="5"
 		;;
+	6*)
+		REG="6"
+		;;
+	7*)
+		REG="7"
+		;;
 	*)
 		REG="-"
 		CSQ="-"
@@ -306,6 +321,9 @@ cat <<EOF
 "mode":"$MODE",
 "registration":"$REG",
 "simslot":"$SSIM",
+"imei":"$NR_IMEI",
+"imsi":"$NR_IMSI",
+"iccid":"$NR_ICCID",
 "lac_dec":"$LAC_DEC",
 "lac_hex":"$LAC_HEX",
 "tac_dec":"$TAC_DEC",

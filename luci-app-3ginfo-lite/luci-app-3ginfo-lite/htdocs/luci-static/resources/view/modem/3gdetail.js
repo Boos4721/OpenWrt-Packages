@@ -174,6 +174,26 @@ pg.firstElementChild.style.animationDirection = "reverse";
 pg.setAttribute('title', '%s'.format(v) + ' | ' + tip + ' ');
 }
 
+function SIMdata(data) {
+	var sdata = JSON.parse(data);
+
+	if (sdata.simslot.length > 0) {
+		return ui.itemlist(E('span'), [
+		_('SIM Slot'), sdata.simslot,
+		_('SIM IMSI'), sdata.imsi,
+		_('SIM ICCID'), sdata.iccid,
+		_('Modem IMEI'), sdata.imei
+		]);
+	}
+	else {
+		return ui.itemlist(E('span'), [
+		_('SIM IMSI'), sdata.imsi,
+		_('SIM ICCID'), sdata.iccid,
+		_('Modem IMEI'), sdata.imei
+		]);
+	}
+}
+
 return view.extend({
 	formdata: { threeginfo: {} },
 
@@ -224,7 +244,8 @@ return view.extend({
 					L.hideModal();
 					}
 					
-					var icon;
+					var icon, wicon;
+					var wicon = L.resource('icons/loading.gif');
 
 					var p = (json.signal);
 					if (p < 0)
@@ -260,7 +281,7 @@ return view.extend({
 						}
 						else {
 						if (json.connt == '' || json.connt == '-') { 
-						view.textContent = _('Waiting for connection data...');
+						view.innerHTML = String.format('<img style="width: 16px; height: 16px; vertical-align: middle;" src="%s"/>' + ' ' +_('Waiting for connection data...'), wicon, p);
 						}
 						else {
 						view.textContent = '⏱ '+ json.connt + ' | ↓' + json.connrx + ' ↑' + json.conntx;
@@ -285,34 +306,27 @@ return view.extend({
 
 					if (document.getElementById('sim')) {
 						var view = document.getElementById("sim");
+						var sv = document.getElementById("simv");
 						if (json.registration == '') { 
 						view.textContent = '-';
 						}
 						else {
+						sv.style.visibility = "visible";
 						view.textContent = json.registration;
 						if (json.registration == '0') { 
 							view.textContent = _('Not registered');
-							if (json.simslot.length > 0) { 
-							view.textContent =_('SIM') + ':' + json.simslot + ' | ' + _('Not registered');
-							}
 						}
-						if (json.registration == '1') { 
+						if (json.registration == '1' || json.registration == '6') { 
 							view.textContent = _('Registered');
-							if (json.simslot.length > 0) {  
-							view.textContent =_('SIM') + ':' + json.simslot + ' | ' + _('Registered');
-							}
 						}
 						if (json.registration == '2') { 
 							view.textContent = _('Searching..');
-							if (json.simslot.length > 0) {  
-							view.textContent =_('SIM') + ':' + json.simslot + ' | ' + _('Searching..');
-							}
 						}
 						if (json.registration == '3') { 
 							view.textContent = _('Registering denied');
-							if (json.simslot.length > 0) {  
-							view.textContent =_('SIM') + ':' + json.simslot + ' | ' + _('Registering denied');
-							}
+						}
+						if (json.registration == '5' || json.registration == '7') { 
+							view.textContent = _('Registered (roaming)');
 						}
 					}
 					}
@@ -508,15 +522,12 @@ return view.extend({
 
 					if (document.getElementById('lac')) {
 						var view = document.getElementById("lac");
-						//var subDEC="DEC";
-						//var subHEX="HEX";
 						if (json.lac_dec == '' || json.lac_hex == '') { 
 						var lc = json.lac_dec   + ' ' + json.lac_hex;
 						var ld = lc.split(' ').join('');
 						view.textContent = ld;
 						}
 						else {
-						//view.innerHTML = json.lac_dec + '|'+ subDEC.sub() + ' ' + json.lac_hex + '|'+ subHEX.sub();
 						view.innerHTML = json.lac_dec + ' (' + json.lac_hex + ')';
 						}
 
@@ -524,21 +535,16 @@ return view.extend({
 
 					if (document.getElementById('tac')) {
 						var view = document.getElementById("tac");
-						//var subDEC="DEC";
-						//var subHEX="HEX";
 						if (json.signal == 0 || json.signal == '') {
 						view.textContent = '-';
 						}
 						else {
 							if (json.tac_hex == null || json.tac_hex == '' || json.tac_hex == '-') {
-							//view.innerHTML = json.tac_d + '|'+ subDEC.sub() + ' ' + json.tac_h + '|'+ subHEX.sub();
 							view.innerHTML = json.tac_d + ' (' + json.tac_h + ')';
 							}
 							else {
-								//view.innerHTML = json.tac_dec + subDEC.sub() + ' (' + json.tac_hex + ')+ subHEX.sub()';
 								view.innerHTML = json.tac_dec + ' (' + json.tac_hex + ')';
 								if (json.tac_hex == json.lac_hex && json.tac_dec == '') {
-									//view.innerHTML = json.lac_dec + '|'+ subDEC.sub() + ' ' + json.tac_hex + '|'+ subHEX.sub();
 									view.innerHTML = json.lac_dec + ' (' + json.tac_hex + ')';
 								}
 
@@ -548,15 +554,12 @@ return view.extend({
 
 					if (document.getElementById('cid')) {
 						var view = document.getElementById("cid");
-						//var subDEC="DEC";
-						//var subHEX="HEX";
 						if (json.cid_dec == '' || json.cid_hex == '') { 
 						var cc = json.cid_hex   + ' ' + json.cid_dec;
 						var cd = cc.split(' ').join('');
 						view.textContent = cd;
 						}
 						else {
-						//view.innerHTML = json.cid_dec + '|'+ subDEC.sub() + '' + json.cid_hex + '|'+ subHEX.sub();
 						view.innerHTML = json.cid_dec + ' (' + '' + json.cid_hex + ')';
 						}
 					}
@@ -647,13 +650,14 @@ return view.extend({
 
 		}		
 
-		var info = _('More information about the 3ginfo on the') + ' <a href="https://eko.one.pl/?p=openwrt-3ginfo" target="_blank">' + _('eko.one.pl forum') + '</a>.';
+		var info = _('More information about the 3ginfo on the %seko.one.pl forum%s.').format('<a href="https://eko.one.pl/?p=openwrt-3ginfo" target="_blank">', '</a>');
 		m = new form.JSONMap(this.formdata, _('3ginfo-lite'), info);
 
 		s = m.section(form.TypedSection, '3ginfo', '', _(''));
 		s.anonymous = true;
 
 		s.render = L.bind(function(view, section_id) {
+
 			return E('div', { 'class': 'cbi-section' }, [
 				E('h4', {}, [ _('General Information') ]),
 			E('table', { 'class': 'table' }, [
@@ -667,7 +671,27 @@ return view.extend({
 					]),
 				E('tr', { 'class': 'tr' }, [
 					E('td', { 'class': 'td left', 'width': '33%' }, [ _('SIM status')]),
-					E('td', { 'class': 'td left', 'id': 'sim' }, [ '-' ]),
+					E('td', { 'class': 'td left'}, [
+						E('span', {
+							'class': 'ifacebadge',
+							'title': '',
+							'id': 'simv',
+							'style': 'visibility: hidden; max-width:5em; display: inline-block;',
+						}, [
+							E('div', { 'class': 'ifacebox-body' }, [
+							E('div', { 'class': 'cbi-tooltip-container' }, [
+							E('img', {
+								'src': L.resource('icons/sim1m.png'),
+								'style': 'width:16px; height:auto',
+								'title': _(''),
+								'class': 'middle',
+							}),
+							E('span', { 'class': 'cbi-tooltip', 'style': 'text-align:left;font-size:80%' }, SIMdata(data)),
+								]),
+							]),
+						]),
+						E('normal', { 'id': 'sim', 'style': 'margin-left: 0.5em;'}, [ '-' ]),
+						]),
 					]),
 				E('tr', { 'class': 'tr' }, [
 					E('td', { 'class': 'td left', 'width': '33%' }, [ _('Connection statistics')]),
@@ -694,7 +718,7 @@ return view.extend({
 					E('td', { 'class': 'td left', 'id': 'cport' }, [ '-' ]),
 					]),
 				E('tr', { 'class': 'tr' }, [
-					E('td', { 'class': 'td left', 'width': '33%' }, [ _('Protocol:')]),
+					E('td', { 'class': 'td left', 'width': '33%' }, [ _('Protocol')]),
 					E('td', { 'class': 'td left', 'id': 'protocol' }, [ '-' ]),
 					]),
 				E('tr', { 'id': 'tempn', 'class': 'tr' }, [
@@ -850,7 +874,7 @@ return view.extend({
 						var cutmnc = zzmnc.slice(1, 2);
 						}
 					else {
-						var cutmnc = zzmnc;
+					var cutmnc = zzmnc;
 						}
 					}
 				if ( zzmnc.length < 2 || !first.includes('0') && !second.includes('0')) {
@@ -871,4 +895,3 @@ return view.extend({
 	handleSave: null,
 	handleReset: null
 });
-

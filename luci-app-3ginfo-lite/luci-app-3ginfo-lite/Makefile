@@ -7,10 +7,16 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=luci-app-3ginfo-lite
 LUCI_TITLE:=LuCI panel for 3ginfo-lite
 LUCI_PKGARCH:=all
-LUCI_DEPENDS:=+sms-tool
-PKG_VERSION:=1.0.25-20220912
+LUCI_DEPENDS:=+sms-tool +comgt
+PKG_VERSION:=1.0.30-20221021
 
 include $(TOPDIR)/feeds/luci/luci.mk
+
+define Package/luci-app-3ginfo-lite/description
+	LuCI panel for 3ginfo-lite
+	The package allows visualization of the parameters of a 
+	mobile Internet connection.
+endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
 

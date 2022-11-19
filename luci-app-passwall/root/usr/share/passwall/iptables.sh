@@ -341,7 +341,7 @@ load_acl() {
 
 							dnsmasq_port=$(get_new_port $(expr $dnsmasq_port + 1))
 							redirect_dns_port=$dnsmasq_port
-							mkdir -p $TMP_ACL_PATH/$sid
+							mkdir -p $TMP_ACL_PATH/$sid/dnsmasq.d
 							echo "port=${dnsmasq_port}" >> $TMP_ACL_PATH/$sid/dnsmasq.conf
 							echo "conf-dir=${TMP_ACL_PATH}/${sid}/dnsmasq.d" >> $TMP_ACL_PATH/$sid/dnsmasq.conf
 							d_server=127.0.0.1
@@ -757,8 +757,8 @@ filter_node() {
 
 		local ADD_INDEX=$FORCE_INDEX
 		for _ipt in 4 6; do
-			[ "$_ipt" == "4" ] && _ipt=$ipt_tmp
-			[ "$_ipt" == "6" ] && _ipt=$ip6t_m
+			[ "$_ipt" == "4" ] && _ipt=$ipt_tmp && _set_name=$IPSET_VPSIPLIST
+			[ "$_ipt" == "6" ] && _ipt=$ip6t_m && _set_name=$IPSET_VPSIPLIST6
 			$_ipt -n -L PSW_OUTPUT | grep -q "${address}:${port}"
 			if [ $? -ne 0 ]; then
 				unset dst_rule
@@ -769,7 +769,7 @@ filter_node() {
 					msg2="套娃使用(${msg}:${port} -> ${_port})"
 				}
 				[ -n "$_proxy" ] && [ "$_proxy" == "1" ] && [ -n "$_port" ] || {
-					ADD_INDEX=$(RULE_LAST_INDEX "$_ipt" PSW_OUTPUT "$IPSET_VPSIPLIST" $FORCE_INDEX)
+					ADD_INDEX=$(RULE_LAST_INDEX "$_ipt" PSW_OUTPUT "$_set_name" $FORCE_INDEX)
 					dst_rule=" -j RETURN"
 					msg2="直连代理"
 				}

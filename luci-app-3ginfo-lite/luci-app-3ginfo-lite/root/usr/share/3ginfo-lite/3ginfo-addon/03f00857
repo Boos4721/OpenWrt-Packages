@@ -170,6 +170,9 @@ then
 fi
 
 # Model
+PVMODEL=$(echo $PV | awk -F 'Vendor=03f0 ProdID=0857' '{print $2}' | cut -c-150)
+PVMODEL=$(echo $PV | awk -F 'Vendor=03f0 ProdID=0a57' '{print $2}' | cut -c-150)
+PVMODEL=$(echo $PV | awk -F 'Vendor=1bc7 ProdID=1901' '{print $2}' | cut -c-150)
 PVMODEL=$(echo $PV | awk -F 'Vendor=1bc7 ProdID=1900' '{print $2}' | cut -c-150)
 if [ -z "$MODEL" ]
 then
@@ -177,6 +180,27 @@ then
 	MODELACUT=$(echo $PVMODEL | awk -F 'Product=|S: SerialNumber' '{print $2}'| xargs)
 	MODELC="$MODELBCUT "$MODELACUT
 	MODEL=$(echo "$MODELC" | awk '{for (i=1;i<=NF;i++) if (!a[$i]++) printf("%s%s",$i,FS)}{printf("\n")}')
+fi
+
+# International Mobile Equipment Identity (IMEI)
+O=$(sms_tool -d $DEVICE at "AT+GSN" | xargs)
+NR_I=$(echo "$O")
+if [ -n "$NR_I" ]; then
+	NR_IMEI="$NR_I"
+fi
+
+# International Mobile Subscriber Identity (IMSI)
+O=$(sms_tool -d $DEVICE at "AT+CIMI" | xargs)
+NR_C=$(echo "$O")
+if [ -n "$NR_C" ]; then
+	NR_IMSI="$NR_C"
+fi
+
+# Integrated Circuit Card Identifier (ICCID)
+O=$(sms_tool -d $DEVICE at "AT+ICCID" | xargs)
+NR_D=$(echo "$O" | awk -F [:] '/^\ICCID:/{print $2}' | xargs)
+if [ -n "$NR_D" ]; then
+	NR_ICCID="$NR_D"
 fi
 
 # FW

@@ -7,11 +7,9 @@
 
 Luci-app-3ginfo-lite is fork from https://github.com/obsy/packages/tree/master/easyconfig/addon
 
-### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32">
-Luci-app-3ginfo-lite is a simplified version of the 3ginfo project. Works with mPCI-E/M.2 and USB 3G/LTE modems.
+### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="24"> Luci-app-3ginfo-lite is a simplified version of the 3ginfo project. Works with mPCI-E/M.2 and USB 3G/LTE modems.
 
-### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32">
-Luci-app-3ginfo-lite jest uproszczoną wersją projektu 3ginfo. Działa na modemach mPCI-E/M.2 oraz USB 3G/LTE.
+### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="24"> Luci-app-3ginfo-lite jest uproszczoną wersją projektu 3ginfo. Działa z modemami mPCI-E/M.2 oraz USB 3G/LTE.
 
 
 ``` bash
@@ -40,7 +38,7 @@ Not tested devices (Not all data can be shown and scripts need to be corrected):
 
 ```
 
-## <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32"> Installation / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32"> Instalacja
+## <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="24"> Installation / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="24"> Instalacja
 ``` bash
 > For conventional modems.
 Modem drivers are required for proper operation.
@@ -66,12 +64,35 @@ Latest version ➜ https://github.com/4IceG/luci-app-3ginfo-lite/releases/latest
 wget https://github.com/4IceG/luci-app-3ginfo-lite/releases/download/1.0.17-20220701/luci-app-3ginfo-lite_1.0.17-20220701_all.ipk -O /tmp/luci-app-3ginfo-lite_1.0.17-20220701_all.ipk
 opkg install /tmp/luci-app-3ginfo-lite_1.0.17-20220701_all.ipk
 
+#The package can be added to Openwrt sources in two ways:
+
+cd feeds/luci/applications/
+git clone https://github.com/4IceG/luci-app-3ginfo-lite.git
+cd ../../..
+./scripts feeds update -a; ./scripts/feeds install -a
+make menuconfig
+
+or e.g.
+
+cd packages/
+git clone https://github.com/4IceG/luci-app-3ginfo-lite.git
+git pull
+make package/symlinks
+make menuconfig
+
+You may need to correct the file paths and the number of folders to look like this:
+feeds/luci/applications/luci-app-3ginfo-lite/Makefile
+or
+packages/luci-app-3ginfo-lite/Makefile
+
+Then you can compile the packages one by one, an example command:
+make V=s -j1 feeds/luci/applications/luci-app-3ginfo-lite/compile
 ```
 
 
-### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32"> Preview / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32"> Podgląd
+### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="24"> Preview / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="24"> Podgląd
 
-![](https://github.com/4IceG/Personal_data/blob/master/3ginfo-lite.png?raw=true)
+![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/tano_3ginfo3.png?raw=true)
 
-## <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="32"> Thanks to / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="32"> Podziękowania dla
+## <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="24"> Thanks to / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="24"> Podziękowania dla
 - [obsy (Cezary Jackiewicz)](https://github.com/obsy)

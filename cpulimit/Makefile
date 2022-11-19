@@ -1,34 +1,35 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cpulimit
-PKG_VERSION:=0.2
-PKG_RELEASE:=1
-#PKG_REV:=cabeb9947ccddd9a6e6ba14503e2a33063ac1b21
+PKG_VERSION:=0.3.2
+PKG_RELEASE:=$(AUTORELEASE)
 
-#PKG_SOURCE_PROTO:=git
-#PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-#PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-#PKG_SOURCE_URL:=https://github.com/opsengine/cpulimit.git
-#PKG_SOURCE_VERSION:=$(PKG_REV)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/denji/cpulimit/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=0c61d394407fdd0547b53e6435ecb817d2e3ba914b48aa9f48ccf42c8278d3a6
+
+PKG_BUILD_PARALLEL:=1
+PKG_LICENSE_FILES:=LICENSE
+
+MAKE_PATH:=src
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/cpulimit
   SECTION:=utils
   CATEGORY:=Utilities
-  TITLE:=cpulimit
-  URL:=https://github.com/opsengine/cpulimit.git
+  TITLE:=CPU usage limiter
+  URL:=https://github.com/denji/cpulimit
 endef
 
-define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)
-	$(CP) ./src/* $(PKG_BUILD_DIR)/
+define Package/cpulimit/description
+  Cpulimit is a tool which limits the CPU usage of a process
+  (expressed in percentage, not in CPU time).
 endef
 
 define Package/cpulimit/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/cpulimit $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/cpulimit $(1)/usr/bin/
 endef
-
 
 $(eval $(call BuildPackage,cpulimit))
