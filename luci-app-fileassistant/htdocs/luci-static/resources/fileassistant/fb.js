@@ -91,6 +91,40 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   }
 
+  function chmodPath(filename, isdir) {
+    var newmod = prompt("Please enter a new permission bit (oct. or a+x format is supported)", isdir === "1" ? "0755" : "0644");
+    if (newmod) {
+      iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/chmod',
+        {
+          filepath: concatPath(currentPath, filename),
+          newmod: newmod
+        },
+        function (x, res) {
+          if (res.ec === 0) {
+            refresh_list(res.data, currentPath);
+          }
+        }
+      );
+    }
+  }
+
+  function chownPath(filename) {
+    var newown = prompt("Please enter a new username (username or username:group format is supported)", "root");
+    if (newown) {
+      iwxhr.get('/cgi-bin/luci/admin/nas/fileassistant/chown',
+        {
+          filepath: concatPath(currentPath, filename),
+          newown: newown
+        },
+        function (x, res) {
+          if (res.ec === 0) {
+            refresh_list(res.data, currentPath);
+          }
+        }
+      );
+    }
+  }
+
   function openpath(filename, dirname) {
     dirname = dirname || currentPath;
     window.open('/cgi-bin/luci/admin/nas/fileassistant/open?path='
@@ -130,6 +164,13 @@ String.prototype.replaceAll = function(search, replacement) {
     else if (targetElem.className.indexOf('cbi-button-edit') > -1) {
       renamePath(targetElem.parentNode.parentNode.dataset['filename']);
     }
+    else if (targetElem.className.indexOf('cbi-button-chmod') > -1) {
+      infoElem = targetElem.parentNode.parentNode;
+      chmodPath(infoElem.dataset['filename'] , infoElem.dataset['isdir']);
+    }
+    else if (targetElem.className.indexOf('cbi-button-chown') > -1) {
+      chownPath(targetElem.parentNode.parentNode.dataset['filename']);
+    }
     else if (targetElem = getFileElem(targetElem)) {
       if (targetElem.className.indexOf('parent-icon') > -1) {
         update_list(currentPath.replace(/\/[^/]+($|\/$)/, ''));
@@ -156,7 +197,14 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   }
   function refresh_list(filenames, path) {
-    var listHtml = '<table class="cbi-section-table"><tbody>';
+    var listHtml = '<table class="cbi-section-table"><thead><tr class="cbi-section-table-row cbi-rowstyle-2">'
+      +'<td class="cbi-value-field">File</td>'
+      +'<td class="cbi-value-field">Owner</td>'
+      +'<td class="cbi-value-field">Modifed</td>'
+      +'<td class="cbi-value-field">Size</td>'
+      +'<td class="cbi-value-field">Permissions</td>'
+      +'<td class="cbi-section-table-cell">Ok</td>'
+      +'</tr></thead><tbody>';
     if (path !== '/') {
       listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-2"><td class="parent-icon" colspan="6"><strong>..</strong></td></tr>';
     }
@@ -176,7 +224,7 @@ String.prototype.replaceAll = function(search, replacement) {
             icon: (f[1][0] === 'd') ? "folder-icon" : (isLink ? "link-icon" : "file-icon")
           };
 		  
-		  var install_btn = '<button class="cbi-button cbi-button-install" style="visibility: hidden;">安装</button>';
+		  var install_btn = '<button class="cbi-button cbi-button-install" style="visibility: hidden;">Install</button>';
           var index= o.filename.lastIndexOf(".");
 		  var ext = o.filename.substr(index+1);
           if (ext === 'ipk') {
@@ -196,7 +244,9 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
             + '<td class="cbi-section-table-cell">\
 				<button class="cbi-button cbi-button-edit">Rename</button>\
-                <button class="cbi-button cbi-button-remove">Delete</button>'
+                 <button class="cbi-button cbi-button-remove">Delete</button>\
+				<button class="cbi-button cbi-button-apply cbi-button-chmod">Change Permissions</button>\
+                <button class="cbi-button cbi-button-apply cbi-button-chown">Change Users</button>'
 			+ install_btn
 			+ '</td>'
             + '</tr>';
@@ -270,6 +320,26 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   };
 
+  document.getElementById('mkdir-toggle').onclick = function() {
+    var dirname = null;
+    if (dirname = prompt("Pls enter a new folder name")) {
+      var formData = new FormData();
+      formData.append('path', currentPath);
+      formData.append('dirname', dirname);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cgi-bin/luci/admin/nas/fileassistant/mkdir", true);
+      xhr.onload = function() {
+        if (xhr.status == 200) {
+          var res = JSON.parse(xhr.responseText);
+          refresh_list(res.data, currentPath);
+        }
+        else {
+          alert("Create Failed, please try again later..");
+        }
+      };
+      xhr.send(formData);
+    }
+  };
   document.addEventListener('DOMContentLoaded', function(evt) {
     var initPath = '/';
     if (/path=([/\w]+)/.test(location.search)) {

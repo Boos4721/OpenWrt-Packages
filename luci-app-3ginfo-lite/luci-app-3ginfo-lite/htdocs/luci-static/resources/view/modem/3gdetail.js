@@ -9,10 +9,11 @@
 'require tools.widgets as widgets';
 
 /*
-	Copyright 2021-2022 Rafał Wabik - IceG - From eko.one.pl forum
+	Copyright 2021-2023 Rafał Wabik - IceG - From eko.one.pl forum
+	
+	Licensed to the GNU General Public License v3.0.
 	
 	Thanks to https://github.com/koshev-msk for the initial progress bar calculation for rssi/rsrp/rsrq/sinnr.
-
 */
 
 function csq_bar(v, m) {
@@ -212,14 +213,17 @@ return view.extend({
 		if(!json.hasOwnProperty('error')){
 
 					if (json.signal == '0' || json.signal == '') {
-						L.ui.showModal(_('3ginfo-lite'), [
-						E('p', { 'class': 'spinning' }, _('Waiting to read data from the modem...'))
-						]);
+						fs.exec('sleep 1');
+							if (json.signal == '0' || json.signal == '') {	
+							L.ui.showModal(_('3ginfo-lite'), [
+							E('p', { 'class': 'spinning' }, _('Waiting to read data from the modem...'))
+							]);
 
-						window.setTimeout(function() {
-						location.reload();
-						//L.hideModal();
-						}, 30000).finally();
+							window.setTimeout(function() {
+							location.reload();
+							//L.hideModal();
+							}, 30000).finally();
+							}
 					}
 					else {
 					L.hideModal();
@@ -231,14 +235,17 @@ return view.extend({
 				var json = JSON.parse(res);
 
 					if (json.signal == '0' || json.signal == '') {
-						L.ui.showModal(_('3ginfo-lite'), [
-						E('p', { 'class': 'spinning' }, _('Waiting to read data from the modem...'))
-						]);
+						fs.exec('sleep 1');
+							if (json.signal == '0' || json.signal == '') {
+							L.ui.showModal(_('3ginfo-lite'), [
+							E('p', { 'class': 'spinning' }, _('Waiting to read data from the modem...'))
+							]);
 
-						window.setTimeout(function() {
-						location.reload();
-						//L.hideModal();
-						}, 30000).finally();
+							window.setTimeout(function() {
+							location.reload();
+							//L.hideModal();
+							}, 30000).finally();
+							}
 					}
 					else {
 					L.hideModal();
@@ -343,7 +350,6 @@ return view.extend({
 						else {
 						view.textContent = json.mode;
 						}
-
 						}
 					}
 
@@ -535,17 +541,39 @@ return view.extend({
 
 					if (document.getElementById('tac')) {
 						var view = document.getElementById("tac");
+						var tac_dh, tac_dec_hex, lac_dec_hex;
 						if (json.signal == 0 || json.signal == '') {
 						view.textContent = '-';
 						}
 						else {
 							if (json.tac_hex == null || json.tac_hex == '' || json.tac_hex == '-') {
-							view.innerHTML = json.tac_d + ' (' + json.tac_h + ')';
+							var tac_dh =  json.tac_d + ' (' + json.tac_h + ')';
+								if (tac_dh.includes(' ()') && json.tac_d == null || json.tac_d == '') {
+									view.textContent = '-';
+								} else {
+									view.textContent = tac_dh;
+								};
 							}
 							else {
-								view.innerHTML = json.tac_dec + ' (' + json.tac_hex + ')';
+								var tac_dec_hex = json.tac_dec + ' (' + json.tac_hex + ')';
+									if (tac_dec_hex.includes(' ()') && json.tac_dec == null || json.tac_dec == '') {
+										view.textContent = '-';
+									} else {
+										view.textContent = tac_dec_hex;
+									};
+								var lac_dec_hex = json.tac_dec + ' (' + json.tac_hex + ')';
+									if (lac_dec_hex.includes(' ()') && json.tac_dec == null || json.tac_dec == '') {
+										view.textContent = '-';
+									} else {
+										view.textContent = lac_dec_hex;
+									};
 								if (json.tac_hex == json.lac_hex && json.tac_dec == '') {
-									view.innerHTML = json.lac_dec + ' (' + json.tac_hex + ')';
+								var lac_dec_hex = json.lac_dec + ' (' + json.tac_hex + ')';
+									if (lac_dec_hex.includes(' ()') && json.tac_hex == null || json.tac_hex == '' && json.lac_hex == null || json.lac_hex == '') {
+										view.textContent = '-';
+									} else {
+										view.textContent= lac_dec_hex;
+									};
 								}
 
 							}
@@ -623,6 +651,7 @@ return view.extend({
 							}
 						}
 					}
+					
 					if (document.getElementById('s4band')) {
 						var view = document.getElementById("s4band");
 						if (json.s4band == '') { 
@@ -637,7 +666,6 @@ return view.extend({
 							}
 						}
 					}
-
 			});
 		});		}		
 		else {
@@ -702,7 +730,6 @@ return view.extend({
 					E('td', { 'class': 'td left', 'id': 'mode' }, [ '-' ]),
 					]),
 			]),
-
 			E('h4', {}, [ _('Modem Information') ]),
 			E('table', { 'class': 'table' }, [
 				E('tr', { 'class': 'tr' }, [
@@ -726,7 +753,6 @@ return view.extend({
 					E('td', { 'class': 'td left', 'id': 'temp' }, [ '-' ]),
 					]),
 			]),
-
 			E('h4', {}, [ _('Cell / Signal Information') ]),
 			E('table', { 'class': 'table' }, [
 				E('tr', { 'class': 'tr' }, [
@@ -806,7 +832,6 @@ return view.extend({
 							}, E('div')
 						))
 					]),
-
 				E('tr', { 'class': 'tr' }, [
 					E('td', { 'class': 'td left', 'width': '33%' }, [ _('Primary band | PCI & EARFCN')]),
 					E('td', { 'class': 'td left', 'id': 'pband' }, [ '-' ]),
@@ -849,8 +874,17 @@ return view.extend({
 
 			if (searchsite.includes('btsearch')) {
 			//http://www.btsearch.pl/szukaj.php?mode=std&search=CellID
+			
+				var id_dec = json.cid_dec;
+				var id_hex = json.cid_hex;
+				var id_dec_conv = parseInt(id_hex, 16);
 
-			window.open(searchsite + json.cid_dec);
+				if ( id_dec.length > 2 ) {
+					window.open(searchsite + id_dec);
+				}
+				else {
+					window.open(searchsite + id_dec_conv);
+				}
 			}
 
 			if (searchsite.includes('lteitaly')) {
@@ -861,15 +895,15 @@ return view.extend({
 			var second = zzmnc.slice(1, 2);
 			var zzcid = Math.round(json.cid_dec/256);
 				if ( zzmnc.length == 3 ) {
-				if (first.includes('0')) {
-				var cutmnc = zzmnc.slice(1, 3);
-				}
-				if (first.includes('0') && second.includes('0')) {
-				var cutmnc = zzmnc.slice(2, 3);
-				}
+					if (first.includes('0')) {
+					var cutmnc = zzmnc.slice(1, 3);
+					}
+					if (first.includes('0') && second.includes('0')) {
+					var cutmnc = zzmnc.slice(2, 3);
+					}
 				}
 				if ( zzmnc.length == 2 ) {
-				var first = zzmnc.slice(0, 1);
+					var first = zzmnc.slice(0, 1);
 					if (first.includes('0')) {
 						var cutmnc = zzmnc.slice(1, 2);
 						}
@@ -879,7 +913,7 @@ return view.extend({
 					}
 				if ( zzmnc.length < 2 || !first.includes('0') && !second.includes('0')) {
 				var cutmnc = zzmnc;
-			}
+				}
 
 			window.open(searchsite + json.operator_mcc + cutmnc + '.' + zzcid);
 			}

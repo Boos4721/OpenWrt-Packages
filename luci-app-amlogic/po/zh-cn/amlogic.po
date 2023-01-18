@@ -74,6 +74,9 @@ msgstr "上传文件列表中有内核文件，你可以升级内核。"
 msgid "There are openwrt firmware file in the upload directory, and you can update the openwrt."
 msgstr "上传文件列表中有 OpenWrt 固件文件，你可以升级 OpenWrt。"
 
+msgid "Update plugins first, then update the kernel or firmware."
+msgstr "首先更新插件，再更新内核或固件。"
+
 msgid "After uploading [Firmware], [Kernel], [IPK] or [Backup Config], the operation buttons will be displayed."
 msgstr "当上传 [固件文件]，[内核文件]，[IPK文件]，[配置文件] 后，将自动显示相关操作按钮。"
 
@@ -98,95 +101,14 @@ msgstr "选择设备型号："
 msgid "Select List"
 msgstr "选择列表"
 
-msgid "[s905d] Phicomm N1"
-msgstr "[s905d] 斐讯-N1"
-
-msgid "[s905d] Phicomm N1 (DMA thresh)"
-msgstr "[s905d] 斐讯-N1 (流控)"
-
-msgid "[s905x] HG680P"
-msgstr "[s905x] 烽火HG680"
-
-msgid "[s905x] B860H"
-msgstr "[s905x] 中兴B860H"
-
-msgid "[s905w] X96-Mini & TX3-Mini"
-msgstr "[s905w] X96-Mini & TX3-Mini"
-
-msgid "[s912] Octopus Planet"
-msgstr "[s912] 章鱼星球"
-
-msgid "[s905x2] X96 Max 4G"
-msgstr "[s905x2] X96 Max 4G"
-
-msgid "[s905x2] X96 Max 2G"
-msgstr "[s905x2] X96 Max 2G"
-
-msgid "[s922x] Belink GT-King"
-msgstr "[s922x] Belink GT-King"
-
-msgid "[s922x] Belink GT-King Pro"
-msgstr "[s922x] Belink GT-King Pro"
-
-msgid "[s922x] Belink GT-King Pro H"
-msgstr "[s922x] Belink GT-King Pro H"
-
-msgid "[s922x] Belink GT-King Pro Rev_A"
-msgstr "[s922x] Belink GT-King Pro Rev_A"
-
-msgid "[s922x] Hardkernel ODROID N2"
-msgstr "[s922x] Hardkernel ODROID N2"
-
-msgid "[s922x] UGOOS AM6 Plus"
-msgstr "[s922x] UGOOS AM6 Plus"
-
-msgid "[a311d] Khadas VIM3"
-msgstr "[a311d] Khadas VIM3"
-
-msgid "[s905x3] X96 Max+"
-msgstr "[s905x3] X96 Max+"
-
-msgid "[s905x3] X96 Max+ (OverClock@2208Mhz)"
-msgstr "[s905x3] X96 Max+ (超频@2208Mhz)"
-
-msgid "[s905x3] HK1 Box"
-msgstr "[s905x3] HK1 Box"
-
-msgid "[s905x3] HK1 Box (OverClock@2208Mhz)"
-msgstr "[s905x3] HK1 Box (超频@2208Mhz)"
-
-msgid "[s905x3] H96 Max X3"
-msgstr "[s905x3] H96 Max X3"
-
-msgid "[s905x3] H96 Max X3 (OverClock@2208Mhz)"
-msgstr "[s905x3] H96 Max X3 (超频@2208Mhz)"
-
-msgid "[s905x3] Ugoos X3"
-msgstr "[s905x3] Ugoos X3"
-
-msgid "[s905x3] Ugoos X3 (OverClock@2208Mhz)"
-msgstr "[s905x3] Ugoos X3 (超频@2208Mhz)"
-
-msgid "[s905x3] TX3 BZ"
-msgstr "[s905x3] TX3 百兆"
-
-msgid "[s905x3] TX3 BZ (OverClock@2208Mhz)"
-msgstr "[s905x3] TX3 百兆 (超频@2208Mhz)"
-
-msgid "[s905x3] TX3 QZ"
-msgstr "[s905x3] TX3 千兆"
-
-msgid "[s905x3] TX3 QZ (OverClock@2208Mhz)"
-msgstr "[s905x3] TX3 千兆 (超频@2208Mhz)"
-
-msgid "Or enter the dtb file name:"
-msgstr "或者输入自定义 dtb 文件名："
-
 msgid "Enter the dtb file name"
 msgstr "输入自定义 dtb 文件名"
 
-msgid "Use custom dtb file:"
-msgstr "使用自定义 dtb 文件："
+msgid "Enter the soc name:"
+msgstr "输入自定义 soc 名称："
+
+msgid "Enter the uboot_overload name:"
+msgstr "输入自定义 uboot_overload 名称："
 
 msgid "Invalid value."
 msgstr "无效值"
@@ -278,8 +200,8 @@ msgstr "晶晨其他 ----- [ 自定义 DTB 文件 ]"
 msgid "Allwinner H6 ---- [ V-Plus Cloud ]"
 msgstr "全志 H6 ------ [ 微加云 ]"
 
-msgid "Rockchip -------- [ BeikeYun, Chainedbox L1 Pro, FastRhino R66S/R68S, Radxa 5B/E25, H68k ]"
-msgstr "瑞芯微 ------- [ 贝壳云, 我家云, 电犀牛R66S/R68S, 瑞莎5B/E25, 恒领H68k ]"
+msgid "Rockchip -------- [ BeikeYun, L1-Pro, FastRhino R66S/R68S, Radxa 5B/E25, HinLink H66K/H68K/H88k ]"
+msgstr "瑞芯微 ------- [ 贝壳云, 我家云, 电犀牛R66S/R68S, 瑞莎5B/E25, 恒领H66K/H68K/H88k ]"
 
 msgid "Used in KVM ----- [ Can be used in KVM virtual machine of Armbian system. ]"
 msgstr "KVM 中使用 --- [ 可以在 Armbian 系统的 KVM 虚拟机中使用。 ]"
@@ -500,8 +422,8 @@ msgstr "当前设备："
 msgid "If the current device shows (Unknown device), please report to github."
 msgstr "如果当前设备显示无法识别（Unknown device），请到 github 反馈。"
 
-msgid "The OpenWrt and kernel will be downloaded and updated according to the options filled in [Plugin Settings]."
-msgstr "将根据在 [插件设置] 里面填写的选项进行 OpenWrt 固件和内核的下载与更新。"
+msgid "Update plugins first, then update the kernel or firmware. More options can be configured in [Plugin Settings]."
+msgstr "首先更新插件，再更新内核或固件。更多选项可以在插件设置中配置。"
 
 msgid "Collecting data..."
 msgstr "正在收集数据…"
